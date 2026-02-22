@@ -3699,6 +3699,13 @@
         tt = setTimeout(() => (el.className = ''), 2500);
       }
 
+      function takeDmg(dmg) {
+        if (G.p.charClass === 'sebastian') {
+          return Math.floor(dmg * 0.9);
+        }
+        return dmg;
+      }
+
       // ═══════════════════════════════════════
       // UI UPDATE
       // ═══════════════════════════════════════
@@ -3830,18 +3837,18 @@
         if (G.p.cold) sts.push('저체온');
 
         // Passive Perks
-        if (
-          ['rednic', 'tiffany', 'naip', 'sebastian', 'dorian'].includes(
-            G.p.charClass,
-          )
-        )
-          sts.push('광기저항 50%');
         if (G.p.charClass === 'taichi') sts.push('피해량 20% 증가');
         if (G.p.charClass === 'shinwon') sts.push('탐색 피로도 반감');
         if (G.p.charClass === 'yejun') sts.push('파밍 대성공 확정');
         if (G.p.charClass === 'cat') sts.push('잠긴 문 무시');
         if (G.p.charClass === 'jerry') sts.push('상점 반값 할인');
         if (G.p.charClass === 'woojin') sts.push('발각 패널티 무시');
+        if (G.p.charClass === 'rednic') sts.push('최대 체력 +50');
+        if (G.p.charClass === 'tiffany') sts.push('매혹적인 화술 (사회성 2)');
+        if (G.p.charClass === 'naip') sts.push('뒷세계의 지혜 (지력 2)');
+        if (G.p.charClass === 'sebastian') sts.push('받는 피해 10% 감소');
+        if (G.p.charClass === 'dorian') sts.push('무기 착용 시 피해량 증가');
+        if (G.p.charClass === 'heejae') sts.push('알뜰한 솜씨');
 
         document.getElementById('statuses').textContent = sts.length
           ? sts.join(', ')
@@ -4228,19 +4235,22 @@
           }
           // Relationship / One-night logic
           const reqMetON = per.affinity >= 80 && hasItem('condom');
-          choices.unshift({
-            label: '💘 은밀한 시간',
-            sub: reqMetON
-              ? '콘돔을 사용하여 밤을 보냅니다. (HP/정신력 회복)'
-              : `조건 미달 (호감도 80 이상 및 콘돔 필요). 현재 호감도: ${per.affinity}`,
-            disabled: !reqMetON,
-            action: () => {
-              if (reqMetON) {
-                removeItem('condom');
-                doOneNight(pid);
-              }
-            },
-          });
+
+          if (reqMetON) {
+            choices.push({
+              label: '💘 은밀한 시간',
+              sub: reqMetON
+                ? '콘돔을 사용하여 밤을 보냅니다. (HP/정신력 회복)'
+                : `조건 미달 (호감도 80 이상 및 콘돔 필요). 현재 호감도: ${per.affinity}`,
+              disabled: !reqMetON,
+              action: () => {
+                if (reqMetON) {
+                  removeItem('condom');
+                  doOneNight(pid);
+                }
+              },
+            });
+          }
 
           if (per.loveInt) {
             const reqMet = per.affinity >= 50;
@@ -4300,7 +4310,7 @@
             sub: '치명적 결과가 발생할 수 있다.',
             dg: true,
             action: () => {
-              const weapBonus =
+              let weapBonus =
                 G.p.weapon === 'bat'
                   ? 15
                   : G.p.weapon === 'knife'
@@ -4308,6 +4318,7 @@
                     : G.p.weapon === 'pipe'
                       ? 12
                       : 0;
+              if (G.p.charClass === 'dorian' && G.p.weapon) weapBonus += 15;
               const chance = 0.3 + skillBonus('combat', 0.2) + weapBonus / 100;
               if (rr() < chance) {
                 per.alive = false;
@@ -4330,9 +4341,9 @@
                 checkEnding();
               } else {
                 const dmg = r(20) + 10;
-                G.p.hp = Math.max(0, G.p.hp - dmg);
+                G.p.hp = Math.max(0, G.p.hp - takeDmg(dmg));
                 changeAff(pid, -50);
-                log(`${per.name}의 반격에 당했다! HP -${dmg}`, 'da');
+                log(`${per.name}의 반격에 당했다! HP -${takeDmg(dmg)}`, 'da');
               }
             },
           });
@@ -4527,8 +4538,11 @@
         const encs = [
           () => {
             const dmg = r(10) + 5;
-            G.p.hp = Math.max(0, G.p.hp - dmg);
-            log(`[이동 중] 누군가 갑자기 달려들었다. HP -${dmg}`, 'da');
+            G.p.hp = Math.max(0, G.p.hp - takeDmg(dmg));
+            log(
+              `[이동 중] 누군가 갑자기 달려들었다. HP -${takeDmg(dmg)}`,
+              'da',
+            );
           },
           () => {
             const stolen = Math.min(G.p.money, r(80) + 20);
@@ -7154,6 +7168,8 @@
             G.p.cold = true;
           }
           if (G.p.sanity < 20) G.p.hp = Math.max(0, G.p.hp - 1);
+          if (G.p.hunger > 60) loseSanity(1);
+          if (G.p.fatigue > 60) loseSanity(1);
           checkDeath();
         }
         // Random events
@@ -8909,12 +8925,6 @@
             <div class="cdesc">늘 과학실에 틀박혀 살던 고등학생. 화학 약품과 기성품을 조합해 폭발물이나 구급 키트를 만들어내는 천부적인 재능이 있다. 도구만 있다면 이 학교의 그 누구보다 치명적인 무기를 손에 넣을 수 있는 위험한 천재다.</div>
             <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst high">크래프팅++</div></div>
           </div>
-
-          <div class="ccard" onclick="startGame('sebastian')">
-            <div class="cname">세바스찬 <span class="crole">성인 보호자</span></div>
-            <div class="cdesc">한국인 학생들의 가디언으로 학교를 방문했다가 운 없이 갇힌 정체불명의 외국인 성인. 거대한 덩치와 무거운 파이프 하나로 괴물 같은 학생들을 압도한다. 말이 완전히 통하지 않아도, 그는 어른으로서 아이들을 지켜야 한다는 강한 책임감을 갖고 있다.</div>
-            <div class="cstats"><div class="cst high">HP <span>120</span></div><div class="cst high">압도적 힘/어른</div></div>
-          </div>
           
           <div class="ccard" onclick="startGame('shinwon')">
             <div class="cname">박신원 <span class="crole">생존 전문가</span></div>
@@ -8991,7 +9001,7 @@
           <div class="ccard" onclick="startGame('cat')">
             <div class="cname">고양이 <span class="crole">과학실 고양이</span></div>
             <div class="cdesc">사람들의 싸움에는 관심이 없는 작고 유연한 생명체. 좁은 환풍구를 통해 어디든 이동할 수 있으며, 쥐를 잡아 허기를 달랜다. 사람들이 닿지 못하는 곳에서 진실의 조각을 물어오는 기묘한 존재다.</div>
-            <div class="cstats"><div class="cst low">HP <span>40</span></div><div class="cst high">초월적 회피</div><div class="cst">잠긴 문 우회</div></div>
+            <div class="cstats"><div class="cst low">HP <span>10</span></div><div class="cst high">초월적 회피</div><div class="cst">잠긴 문 우회</div></div>
           </div>
 
           <div class="ccard" onclick="startGame('dorian')">
@@ -9298,9 +9308,9 @@
             name: '신희재',
             hp: 90,
             maxhp: 90,
-            money: 700,
+            money: 700, // 알뜰한 솜씨
             rep: 55,
-            sp: 2,
+            sp: 0,
             skills: {
               strength: 0,
               agility: 1,
@@ -9330,11 +9340,11 @@
             maxhp: 85,
             money: 1500,
             rep: 40,
-            sp: 2,
+            sp: 0,
             skills: {
               strength: 0,
               agility: 1,
-              social: 6,
+              social: 8, // 매혹적인 화술
               intel: 2,
               survival: 0,
               stealth: 2,
@@ -9360,12 +9370,12 @@
             maxhp: 90,
             money: 1500, // Balanced
             rep: 30,
-            sp: 1,
+            sp: 0,
             skills: {
               strength: 1,
               agility: 2,
               social: 5, // Street smart
-              intel: 0, // Studied nothing
+              intel: 2, // 뒷세계의 지혜
               survival: 3,
               stealth: 4,
               medical: 1,
@@ -9392,13 +9402,13 @@
           },
           rednic: {
             name: '레드닉',
-            hp: 80,
-            maxhp: 80,
+            hp: 130, // 붉은 피의 생존자
+            maxhp: 130,
             money: 500,
             rep: 10,
             sp: 2,
             skills: {
-              strength: 0,
+              strength: 3, // 추가 완력 보너스
               agility: 3,
               social: 0,
               intel: 1,
@@ -9494,7 +9504,7 @@
           },
           cat: {
             name: '고양이',
-            hp: 40,
+            hp: 10,
             maxhp: 40,
             money: 0,
             rep: 10,
