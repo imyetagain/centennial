@@ -955,7 +955,7 @@
         pointer-events: none;
       }
       .obox {
-        max-width: 560px;
+        max-width: 960px;
         border: 1px solid var(--b2);
         background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
         padding: 44px 52px;
@@ -1035,16 +1035,16 @@
       /* CHAR SELECT */
       .cgrid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
         margin-top: 15px;
-        max-height: 500px;
+        max-height: 700px;
         overflow-y: auto;
         padding: 5px;
       }
       .ccard {
         border: 1px solid var(--b1);
-        padding: 14px 16px;
+        padding: 10px 12px;
         cursor: pointer;
         transition: all 0.25s;
         text-align: left;
@@ -1397,6 +1397,14 @@
             ><span class="wval" id="wfood">--</span>
           </div>
           <div class="wrow">
+            <span class="wkey">총 물</span
+            ><span class="wval" id="wwater">--</span>
+          </div>
+          <div class="wrow">
+            <span class="wkey">총 자금</span
+            ><span class="wval" id="wmoney">--</span>
+          </div>
+          <div class="wrow">
             <span class="wkey">식량 지속</span
             ><span class="wval" id="wdays">--</span>
           </div>
@@ -1455,6 +1463,11 @@
             ><span class="bcost">은폐</span>
           </button>
           <div class="stitle">탐색</div>
+          <button class="abtn special" data-a="special">
+            <span class="bkey">S</span
+            ><span class="blabel">특수 행동 (구역별)</span
+            ><span class="bcost">전용</span>
+          </button>
           <button class="abtn" data-a="explore">
             <span class="bkey">F</span><span class="blabel">현재 구역 탐색</span
             ><span class="bcost neg">피로+8</span>
@@ -2131,6 +2144,7 @@
             gossip: true,
             trustworthy: true,
             loveInt: false,
+            inventory: ['condom'],
             info: ['rare_sources'],
           },
           {
@@ -2150,6 +2164,7 @@
             gossip: true,
             trustworthy: false,
             loveInt: false,
+            inventory: ['condom'],
             info: ['steal_targets'],
           },
           {
@@ -2188,6 +2203,7 @@
             gossip: false,
             trustworthy: true,
             loveInt: true,
+            inventory: ['condom'],
             info: ['rich_info2'],
           },
           {
@@ -2207,6 +2223,237 @@
             gossip: false,
             trustworthy: false,
             loveInt: false,
+            info: [],
+          },
+          // 신규: 도리안, 한정연, 김우진
+          {
+            id: 'dorian',
+            name: '도리안',
+            role: 'musician',
+            group: '독립',
+            hp: 90,
+            maxhp: 90,
+            alive: true,
+            food: 5,
+            money: 2000,
+            loc: 'library',
+            affinity: 0,
+            trait: 'charismatic',
+            desc: '흑마법사 음악가. 강력한 팬덤을 가진 카리스마. 하지만 대겸의 오른팔이라는 소문이 있다.',
+            gossip: true,
+            trustworthy: false,
+            loveInt: false,
+            info: ['daegyeom_plan', 'daegyeom_location'],
+          },
+          {
+            id: 'hanjungyeon',
+            name: '한정연',
+            role: 'honor',
+            group: '모범생',
+            hp: 70,
+            maxhp: 70,
+            alive: true,
+            food: 2,
+            money: 400,
+            loc: 'classroom_a',
+            affinity: 5,
+            trait: 'unlucky',
+            desc: '운이 지독하게 없지만 공부는 미친듯이 잘한다. 어떤 상황이든 해결법을 찾는다.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: true,
+            info: ['exit_code', 'chemical_formula'],
+          },
+          {
+            id: 'woojin',
+            name: '김우진',
+            role: 'scout',
+            group: '독립',
+            hp: 85,
+            maxhp: 85,
+            alive: true,
+            food: 3,
+            money: 600,
+            loc: 'hallway2',
+            affinity: 0,
+            trait: 'perceptive',
+            desc: '사운드플레이의 고수. 소리만으로 위험을 감지한다. 절대음감.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: false,
+            info: ['night_movement', 'gang_plan'],
+          },
+          // 플레이어블 캐릭터들 (NPC로 존재)
+          {
+            id: 'excley',
+            name: '미스 엑슬리',
+            role: 'teacher_good',
+            group: '교사',
+            hp: 75,
+            maxhp: 75,
+            alive: true,
+            food: 4,
+            money: 900,
+            loc: 'office',
+            affinity: 10,
+            trait: 'authoritative',
+            desc: '깐깐하지만 학생들을 아끼는 교사. 지적이고 권위적이다.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: false,
+            info: ['ration_schedule'],
+          },
+          {
+            id: 'junkyu',
+            name: '우준규',
+            role: 'honor',
+            group: '모범생',
+            hp: 80,
+            maxhp: 80,
+            alive: true,
+            food: 3,
+            money: 500,
+            loc: 'science_lab',
+            affinity: 5,
+            trait: 'smart',
+            desc: '과학 영재. 아이템 제작에 특화되어 있다.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: false,
+            info: ['chemical_formula'],
+          },
+          {
+            id: 'sebastian',
+            name: '세바스찬',
+            role: 'armed',
+            group: '독립',
+            hp: 120,
+            maxhp: 120,
+            alive: true,
+            food: 5,
+            money: 700,
+            loc: 'hallway2',
+            affinity: 0,
+            trait: 'protective',
+            desc: '외부인 수호자. 순찰과 전투에 특화.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: false,
+            info: [],
+          },
+          {
+            id: 'shinwon',
+            name: '박신원',
+            role: 'normal',
+            group: '일반',
+            hp: 150,
+            maxhp: 150,
+            alive: true,
+            food: 5,
+            money: 300,
+            loc: 'gym',
+            affinity: 0,
+            trait: 'athletic',
+            desc: '체력왕. 어떤 극한 상황도 체력으로 돌파한다.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: false,
+            info: [],
+          },
+          {
+            id: 'moongaleb',
+            name: '문갈랩',
+            role: 'celeb',
+            group: '인플루언서',
+            hp: 85,
+            maxhp: 85,
+            alive: true,
+            food: 3,
+            money: 450,
+            loc: 'rooftop',
+            affinity: 10,
+            trait: 'charismatic',
+            desc: '비트 프로듀서. 음악으로 사람들의 마음을 치유한다.',
+            gossip: true,
+            trustworthy: true,
+            loveInt: false,
+            info: [],
+          },
+          {
+            id: 'mincheol',
+            name: '김민철',
+            role: 'merchant',
+            group: '독립',
+            hp: 80,
+            maxhp: 80,
+            alive: true,
+            food: 3,
+            money: 1500,
+            loc: 'cafeteria',
+            affinity: 0,
+            trait: 'merchant',
+            desc: '트레이딩 귀재. 가격을 간파하고 최적의 거래를 성사시킨다.',
+            gossip: true,
+            trustworthy: false,
+            loveInt: false,
+            info: [],
+          },
+          {
+            id: 'taichi',
+            name: '타이치',
+            role: 'armed',
+            group: '유학생',
+            hp: 160,
+            maxhp: 160,
+            alive: true,
+            food: 4,
+            money: 800,
+            loc: 'gym',
+            affinity: 0,
+            trait: 'aggressive',
+            desc: '일본에서 온 무술 유학생. 압도적인 투지와 전투력.',
+            gossip: false,
+            trustworthy: true,
+            loveInt: false,
+            info: [],
+          },
+          {
+            id: 'yejun',
+            name: '김예준',
+            role: 'normal',
+            group: '일반',
+            hp: 70,
+            maxhp: 70,
+            alive: true,
+            food: 1,
+            money: 200,
+            loc: 'hallway1',
+            affinity: -5,
+            trait: 'gambler',
+            desc: '도박 중독. 확률에 모든 것을 건다.',
+            gossip: true,
+            trustworthy: false,
+            loveInt: false,
+            info: [],
+          },
+          {
+            id: 'heejae',
+            name: '신희재',
+            role: 'celeb',
+            group: '인플루언서',
+            hp: 90,
+            maxhp: 90,
+            alive: true,
+            food: 3,
+            money: 700,
+            loc: 'rooftop',
+            affinity: 5,
+            trait: 'charismatic',
+            desc: '카사노바. 매혹과 선물로 사람들을 움직인다.',
+            gossip: true,
+            trustworthy: false,
+            loveInt: true,
+            inventory: ['condom'],
             info: [],
           },
         ];
@@ -2276,10 +2523,10 @@
             loveInt: false,
             info: [],
             inventory: [
-              ...Array(Math.floor(Math.random() * 2))
+              ...Array(1 + r(2))
                 .fill(null)
                 .map(() => 'food_ration'),
-              ...Array(Math.floor(Math.random() * 2))
+              ...Array(1 + r(2))
                 .fill(null)
                 .map(() => 'water_bottle'),
             ],
@@ -2291,7 +2538,8 @@
             p.inventory = [];
             const fc = Math.min(p.food || 0, 5);
             for (let j = 0; j < fc; j++) p.inventory.push('food_ration');
-            const wc = Math.max(1, Math.floor(fc * 0.5));
+            // Ensure at least 1-2 water bottles for named NPCs
+            const wc = Math.max(1 + r(2), Math.floor(fc * 0.8));
             for (let j = 0; j < wc; j++) p.inventory.push('water_bottle');
             // Role-specific bonus items
             if (p.role === 'gangster')
@@ -2460,6 +2708,7 @@
           dangerLevel: 2,
           hideSpot: true,
           hideChance: 0.7,
+          locked: false,
         },
         science_lab: {
           name: '과학실',
@@ -2543,9 +2792,9 @@
         },
         pipe: { name: '파이프', icon: '🔩', desc: '무기. 공격력+', price: 150 },
         bat: {
-          name: '야구방망이',
+          name: '몽둥이',
           icon: '🏏',
-          desc: '강력한 무기',
+          desc: '기본 무기',
           price: 250,
         },
         rope: { name: '밧줄', icon: '🪢', desc: '탈출 선택지 추가', price: 80 },
@@ -2605,7 +2854,174 @@
           desc: '창고 바닥 아래에 길이 있다는 메모다.',
           price: 300,
         },
+        scrap_metal: {
+          name: '고철 조각',
+          icon: '🔩',
+          desc: '제작 및 강화 재료 (금속)',
+          price: 50,
+        },
+        cloth: {
+          name: '천 조각',
+          icon: '🧶',
+          desc: '제작 및 강화 재료 (섬유)',
+          price: 40,
+        },
+        glass_shard: {
+          name: '유리 파편',
+          icon: '💎',
+          desc: '제작 재료 (유리)',
+          price: 30,
+        },
+        mirror: {
+          name: '거울',
+          icon: '🪞',
+          desc: '빛을 반사해 신호를 보내거나 시야를 방해할 수 있다.',
+          price: 150,
+        },
+        spiked_bat: {
+          name: '못 박힌 방망이',
+          icon: '🏏',
+          desc: '강화무기. 매우 강력한 공격력',
+          price: 450,
+        },
+        reinforced_armor: {
+          name: '보강된 옷',
+          icon: '🧥',
+          desc: '강화의상. 방어력 및 추위 저항 상승',
+          price: 500,
+        },
+        medical_kit: {
+          name: '구급가방',
+          icon: '🧳',
+          desc: '전문 의료 장비',
+          price: 400,
+        },
+        old_key: {
+          name: '낡은 열쇠',
+          icon: '🔑',
+          desc: '어디선가 쓰일 것 같다',
+          price: 50,
+        },
+        stun_gun: {
+          name: '테이저건',
+          icon: '🔫',
+          desc: '호신용 무기',
+          price: 350,
+        },
+        can_opener: {
+          name: '캔 따개',
+          icon: '🥫',
+          desc: '통조림을 따는 데 필요',
+          price: 30,
+        },
+        energy_drink: {
+          name: '에너지 드링크',
+          icon: '🥤',
+          desc: '일시적 피로 회복',
+          price: 80,
+        },
+        mp3_player: {
+          name: 'MP3 플레이어',
+          icon: '🎧',
+          desc: '멘탈 관리용',
+          price: 120,
+        },
+        trading_guide: {
+          name: '거래 장부',
+          icon: '📔',
+          desc: '시장 시세를 알 수 있다',
+          price: 200,
+        },
+        watch: {
+          name: '손목시계',
+          icon: '⌚',
+          desc: '시간을 확인할 수 있다',
+          price: 150,
+        },
+        playing_cards: {
+          name: '트럼프 카드',
+          icon: '🃏',
+          desc: '내기에 쓰인다',
+          price: 40,
+        },
+        lucky_charm: {
+          name: '행운의 부적',
+          icon: '🧿',
+          desc: '기분 탓인지 운이 좋아진다',
+          price: 100,
+        },
+        perfume: {
+          name: '향수',
+          icon: '🧴',
+          desc: '호감도 상승 보너스',
+          price: 180,
+        },
+        condom: { name: '콘돔', icon: '🎈', desc: '준비물', price: 50 },
+        master_key: {
+          name: '마스터 키',
+          icon: '🗝️',
+          desc: '거의 모든 문을 여는 키',
+          price: 600,
+        },
+        smoke_bomb: {
+          name: '연막탄',
+          icon: '💨',
+          desc: '도주 확률 대폭 상승',
+          price: 150,
+        },
+        luxury_watch: {
+          name: '명품 시계',
+          icon: '⌚',
+          desc: '매우 비싸 보인다',
+          price: 1200,
+        },
+        gold_bar: {
+          name: '골드바',
+          icon: '💰',
+          desc: '엄청난 가치',
+          price: 3000,
+        },
+        diamond_ring: {
+          name: '다이아 반지',
+          icon: '💍',
+          desc: '누군가에게 선물하거나 비싸게 팔 수 있다',
+          price: 2500,
+        },
+        improvised_bomb: {
+          name: '조잡한 폭탄',
+          icon: '💣',
+          desc: '강력한 파괴력. 잠긴 문을 부수거나 전투에 사용.',
+          price: 500,
+        },
+        shield: {
+          name: '방패',
+          icon: '🛡️',
+          desc: '전투시 대미지 대폭 감소.',
+          price: 400,
+        },
+        night_vision: {
+          name: '야간 투시경',
+          icon: '🥽',
+          desc: '어둠 속에서도 시야 확보.',
+          price: 600,
+        },
+        steroid: {
+          name: '강화 약물',
+          icon: '💉',
+          desc: '힘 +2 영구 상승. 부작용 확률 있음.',
+          price: 1000,
+        },
       };
+
+      // Generate weapon enhancements (+1 to +9)
+      for (let i = 1; i <= 9; i++) {
+        ITEMS[`bat_${i}`] = {
+          name: `몽둥이 +${i}`,
+          icon: '🏏',
+          desc: `강력하게 개조된 몽둥이 (Lv.${i})`,
+          price: 250 + i * 100,
+        };
+      }
 
       // ═══════════════════════════════════════
       // DATA: SKILLS
@@ -2722,11 +3138,6 @@
         },
         exit_plan: {
           text: '3일 뒤 군부대가 학교를 진입할 계획이다.',
-          true: true,
-          src: 'teacher_good2',
-        },
-        ration_real: {
-          text: '실제 식량은 약 800개. 3일이면 바닥난다.',
           true: true,
           src: 'teacher_good2',
         },
@@ -3009,8 +3420,10 @@
         },
         world: {
           survivors: 100,
-          totalFood: 150,
-          order: 65,
+          totalFood: 0,
+          totalWater: 0,
+          totalMoney: 0,
+          order: 70,
           temp: -2,
           deaths: 0,
           dgStage: 0,
@@ -3060,6 +3473,28 @@
       }
       function clamp(v, mn, mx) {
         return Math.max(mn, Math.min(mx, v));
+      }
+      function josa(str, type) {
+        if (!str) return '';
+        const lastChar = str.charCodeAt(str.length - 1);
+        let hasBatchim = false;
+        if (lastChar >= 0xac00 && lastChar <= 0xd7a3) {
+          hasBatchim = (lastChar - 0xac00) % 28 !== 0;
+        } else if (lastChar >= 48 && lastChar <= 57) {
+          // Numbers: 0, 1, 3, 6, 7, 8 have batchim (영, 일, 삼, 육, 칠, 팔)
+          // Actually in common usage: 1(일), 3(삼), 6(육), 7(칠), 8(팔), 0(영) have batchim.
+          const b = [48, 49, 51, 54, 55, 56];
+          hasBatchim = b.includes(lastChar);
+        }
+        const josalist = {
+          '이/가': hasBatchim ? '이' : '가',
+          '을/를': hasBatchim ? '을' : '를',
+          '은/는': hasBatchim ? '은' : '는',
+          '와/과': hasBatchim ? '과' : '와',
+          '으로/로':
+            hasBatchim && (lastChar - 0xac00) % 28 !== 8 ? '으로' : '로', // 'ㄹ' batchim exceptions
+        };
+        return josalist[type] || '';
       }
       function gp(id) {
         return G.people.find((p) => p.id === id);
@@ -3182,10 +3617,12 @@
       function updateGlobalResources() {
         let totalFood = 0;
         let totalWater = 0;
+        let totalMoney = 0;
 
         // Sum player resources
         totalFood += itemQty('food_ration') + itemQty('canned_food') * 2;
         totalWater += itemQty('water_bottle');
+        totalMoney += G.p.money || 0;
 
         // Sum NPC resources
         G.people.forEach((p) => {
@@ -3195,11 +3632,13 @@
               if (item === 'canned_food') totalFood += 2;
               if (item === 'water_bottle') totalWater++;
             });
+            totalMoney += p.money || 0;
           }
         });
 
         G.world.totalFood = totalFood;
         G.world.totalWater = totalWater;
+        G.world.totalMoney = totalMoney;
       }
 
       // ═══════════════════════════════════════
@@ -3330,9 +3769,19 @@
         sd('wsurv', sv + '명', sv < 30 ? 'crit' : sv < 60 ? 'bad' : '');
         sd(
           'wfood',
-          w.totalFood + '개',
+          '🍞' + w.totalFood + '개',
           w.totalFood < 100 ? 'crit' : w.totalFood < 300 ? 'bad' : '',
         );
+        sd(
+          'wwater',
+          '💧' + (w.totalWater || 0) + '개',
+          (w.totalWater || 0) < 50
+            ? 'crit'
+            : (w.totalWater || 0) < 150
+              ? 'bad'
+              : '',
+        );
+        sd('wmoney', '💰' + (w.totalMoney || 0) + '원', '');
         const dl = sv > 0 ? Math.floor(w.totalFood / (sv * 0.65)) : 0;
         sd('wdays', '약 ' + dl + '일', dl < 2 ? 'crit' : dl < 4 ? 'bad' : '');
         const ot =
@@ -3379,6 +3828,21 @@
         if (G.p.injured) sts.push('부상');
         if (G.p.infected) sts.push('감염');
         if (G.p.cold) sts.push('저체온');
+
+        // Passive Perks
+        if (
+          ['rednic', 'tiffany', 'naip', 'sebastian', 'dorian'].includes(
+            G.p.charClass,
+          )
+        )
+          sts.push('광기저항 50%');
+        if (G.p.charClass === 'taichi') sts.push('피해량 20% 증가');
+        if (G.p.charClass === 'shinwon') sts.push('탐색 피로도 반감');
+        if (G.p.charClass === 'yejun') sts.push('파밍 대성공 확정');
+        if (G.p.charClass === 'cat') sts.push('잠긴 문 무시');
+        if (G.p.charClass === 'jerry') sts.push('상점 반값 할인');
+        if (G.p.charClass === 'woojin') sts.push('발각 패널티 무시');
+
         document.getElementById('statuses').textContent = sts.length
           ? sts.join(', ')
           : '없음';
@@ -3434,10 +3898,45 @@
           list.appendChild(more);
         }
       }
+
+      function showFullMapModal() {
+        const textMap = `               [옥상]
+                 ↕
+  [3학년 B반] ↔ [복도 2] ↔ [화장실]
+      ↕          ↕
+  [3학년 A반] ↔ [복도 1] ↔ [과학실]
+      ↕       ↙    ↘
+   [교무실]        [식당]
+      ↕             ↕
+   [도서관]        [체육관]
+                    ↕
+                  [창고]
+
+* 현재 내 위치(▶)와 화살표(→)가 있는 인접 구역으로만 이동할 수 있습니다.`;
+        showModal(
+          '🗺️ 학교 전체 구조도',
+          textMap,
+          [{ label: '확인', sub: '', action: () => {} }],
+          false,
+          '// 시스템',
+        );
+      }
+
       function updateMap() {
         const mc = document.getElementById('mapcontainer');
         if (!mc) return;
         mc.innerHTML = '';
+
+        // Add Full Map View button
+        const topBar = document.createElement('div');
+        topBar.style.cssText = 'margin-bottom: 10px; text-align: right;';
+        const fb = document.createElement('button');
+        fb.className = 'abtn';
+        fb.textContent = '🗺️ 전체 지도 보기';
+        fb.onclick = showFullMapModal;
+        topBar.appendChild(fb);
+        mc.appendChild(topBar);
+
         const order = [
           'classroom_a',
           'classroom_b',
@@ -3493,16 +3992,16 @@
                 })
                 .join('') +
               (pplHere.length > 8
-                ? `<span>+${pplHere.length - 8}</span>`
+                ? `<b style="font-size:10px; font-weight:normal; color:var(--ok); margin-left:2px; position:relative; top:-2px;">+${pplHere.length - 8}</b>`
                 : '') +
               '</span>';
           }
           const badge = room.safe ? 'safe' : 'unsafe';
           const arrow = isCurrent ? '▶' : isConn ? '→' : '·';
           d.innerHTML = `<div class="mroom-name ${isCurrent ? 'current' : ''}">${arrow} ${room.name}${dotsHtml}</div>
-          <div class="mroom-info">${room.desc}</div>
-          <div class="mroom-people">인원: ${pplHere.length}명 · 위험도: ${'▮'.repeat(room.dangerLevel)}${'▯'.repeat(4 - room.dangerLevel)}</div>
-          <span class="mroom-badge ${badge}">${room.safe ? '안전' : '위험'}</span>`;
+              <div class="mroom-info">${room.desc}</div>
+              <div class="mroom-people">인원: ${pplHere.length}명 · 위험도: ${'▮'.repeat(room.dangerLevel)}${'▯'.repeat(4 - room.dangerLevel)}</div>
+              <span class="mroom-badge ${badge}">${room.safe ? '안전' : '위험'}</span>`;
           if (isConn && !isCurrent) {
             d.style.cursor = 'pointer';
             d.onclick = () => moveToRoom(rid);
@@ -3524,9 +4023,9 @@
           const d = document.createElement('div');
           d.className = 'skill-row';
           d.innerHTML = `<div style="font-size:11px;width:60px;color:var(--t2)">${def.icon} ${def.name}</div>
-          <div class="skill-bar"><div class="skill-fill" style="width:${lv >= def.maxlv ? 100 : Math.floor((xp / nextXp) * 100)}%"></div></div>
-          <div class="skill-lvl" style="width:40px">Lv${lv}/${def.maxlv}</div>
-          <button class="skill-up" onclick="upgradeSkill('${sk}')" ${G.p.sp <= 0 || lv >= def.maxlv ? 'disabled' : ''}>↑</button>`;
+              <div class="skill-bar"><div class="skill-fill" style="width:${lv >= def.maxlv ? 100 : Math.floor((xp / nextXp) * 100)}%"></div></div>
+              <div class="skill-lvl" style="width:40px">Lv${lv}/${def.maxlv}</div>
+              <button class="skill-up" onclick="upgradeSkill('${sk}')" ${G.p.sp <= 0 || lv >= def.maxlv ? 'disabled' : ''}>↑</button>`;
           d.title = def.desc;
           st.appendChild(d);
         });
@@ -3727,11 +4226,40 @@
               },
             });
           }
-          if (per.loveInt && per.affinity >= 50) {
-            choices.push({
+          // Relationship / One-night logic
+          const reqMetON = per.affinity >= 80 && hasItem('condom');
+          choices.unshift({
+            label: '💘 은밀한 시간',
+            sub: reqMetON
+              ? '콘돔을 사용하여 밤을 보냅니다. (HP/정신력 회복)'
+              : `조건 미달 (호감도 80 이상 및 콘돔 필요). 현재 호감도: ${per.affinity}`,
+            disabled: !reqMetON,
+            action: () => {
+              if (reqMetON) {
+                removeItem('condom');
+                doOneNight(pid);
+              }
+            },
+          });
+
+          if (per.loveInt) {
+            const reqMet = per.affinity >= 50;
+            choices.unshift({
               label: '💕 고백',
-              sub: '호감도 50 이상',
-              action: () => doConfess(pid),
+              sub: reqMet
+                ? '호감도 50 이상'
+                : `조건 미달 (호감도 50 이상 필요). 현재 호감도: ${per.affinity}`,
+              disabled: !reqMet,
+              action: () => {
+                if (reqMet) doConfess(pid);
+              },
+            });
+          }
+          if (per.affinity >= 30 && G.phase === 'night') {
+            choices.push({
+              label: '🔥 원나잇',
+              sub: '호감도 30+ / 밤에만 가능',
+              action: () => doOneNight(pid),
             });
           }
           if (npcItemCount(per, 'food_ration') > 0 && per.affinity < 0) {
@@ -3786,10 +4314,10 @@
                 G.world.deaths++;
                 G.p.killCount++;
                 G.p.rep = clamp(G.p.rep - 25, 0, 100);
-                G.p.sanity = clamp(G.p.sanity - 20, 0, 100);
+                loseSanity(20);
                 G.world.order = clamp(G.world.order - 5, 0, 100);
                 log(
-                  `${per.name}을(를) 살해했다. 피가 손에 뱄다. (평판-25, 광기+)`,
+                  `${per.name}${josa(per.name, '을/를')} 살해했다. 피가 손에 뱄다. (평판-25, 광기+)`,
                   'da',
                 );
                 if (per.inventory && per.inventory.length > 0) {
@@ -3812,6 +4340,7 @@
         choices.push({ label: '닫기', sub: '', action: () => {} });
         const locName = ROOMS[per.loc] ? ROOMS[per.loc].name : '알 수 없음';
         const bodyTxt = `${per.desc}\n\n소속: ${per.group}\n위치: ${locName}\n호감도: ${per.affinity} (${al.txt})\n신뢰도: ${per.trustworthy ? '높음' : '낮음'}\n알려진 정보: ${infoList.length}개`;
+
         showModal(per.name, bodyTxt, choices, false, `// 인물 상세`);
       }
 
@@ -3853,6 +4382,7 @@
         if (accept) {
           per.affinity = Math.min(100, per.affinity + 30);
           G.p.sanity = Math.min(100, G.p.sanity + 15);
+          G.p.lover = pid;
           log(
             `${per.name}이 고개를 끄덕였다. 이런 상황에서도 마음이 생겼다.`,
             'ok',
@@ -3860,8 +4390,55 @@
           log(`[연애] ${per.name}과(와) 연인 관계가 됐다. 심리 +15`, 'ok');
         } else {
           changeAff(pid, -10);
-          G.p.sanity = Math.max(0, G.p.sanity - 5);
+          loseSanity(10);
           log(`${per.name}이 조용히 고개를 저었다.`, 'na');
+        }
+      }
+
+      function doOneNight(pid) {
+        const per = gp(pid);
+        if (!per) return;
+        const charm =
+          G.p.skills.social * 10 +
+          (G.p.charClass === 'tiffany'
+            ? 35
+            : G.p.charClass === 'heejae'
+              ? 25
+              : 0);
+        const chance = (per.affinity / 100) * 0.5 + (charm / 100) * 0.5;
+        if (rr() < chance) {
+          per.affinity = clamp(per.affinity + 20, -100, 100);
+          G.p.sanity = Math.min(100, G.p.sanity + 25);
+          G.p.hp = Math.min(G.p.maxhp, G.p.hp + 15);
+          G.p.fatigue = clamp(G.p.fatigue + 20, 0, 100);
+          gainXp('social', 15);
+          log(
+            `[🔥] ${per.name}과(와) 잊지 못할 밤을 보냈다. HP +15, 정신력 +25.`,
+            'ok',
+          );
+          // Chance someone finds out
+          if (rr() < 0.25) {
+            G.p.rep = Math.max(0, (G.p.rep || 0) - 10);
+            log(`[열애설] 학교 내에 묘한 기류가 감돈다... 평판 -10`, 'da');
+          }
+          // Lover jealousy check
+          if (G.p.lover && G.p.lover !== pid) {
+            const lover = gp(G.p.lover);
+            if (lover) {
+              changeAff(G.p.lover, -40);
+              log(
+                `[💔] 소문이 ${lover.name}의 귀에 들어갔다. 관계에 심각한 균열이 생겼다.`,
+                'da',
+              );
+            }
+          }
+        } else {
+          changeAff(pid, -20);
+          loseSanity(10);
+          log(
+            `[실패] 분위기를 잡으려 했으나 ${per.name}${josa(per.name, '이/가')} 밀어냈다. "미안하지만 이건 아니야."`,
+            'da',
+          );
         }
       }
 
@@ -3877,6 +4454,48 @@
           return;
         }
         const room = ROOMS[rid];
+
+        // Sabotage Check
+        if (room.locked) {
+          showModal(
+            '// 봉쇄된 구역',
+            `${room.name}(은)는 대겸의 지시로 굳게 잠겨있다.`,
+            [
+              {
+                label: '🗝️ 마스터 키 사용',
+                sub: '한 번에 잠금을 해제합니다.',
+                disabled: !hasItem('master_key'),
+                action: () => {
+                  room.locked = false;
+                  log(
+                    `[작전 방해] 마스터 키로 ${room.name}의 잠금을 해제했다.`,
+                    'ok',
+                  );
+                  moveToRoom(rid);
+                },
+              },
+              {
+                label: '💣 조잡한 폭탄 사용',
+                sub: '문을 부수고 강제로 진입합니다. (큰 소음 발생)',
+                disabled: !hasItem('improvised_bomb'),
+                action: () => {
+                  removeItem('improvised_bomb');
+                  room.locked = false;
+                  room.dangerLevel += 2;
+                  G.world.order = clamp(G.world.order - 5, 0, 100);
+                  log(
+                    `[작전 방해] 폭탄으로 ${room.name}의 문을 날려버렸다!`,
+                    'ok',
+                  );
+                  moveToRoom(rid);
+                },
+              },
+              { label: '돌아가기', sub: '', action: () => {} },
+            ],
+          );
+          return;
+        }
+
         G.p.loc = rid;
         G.p.fatigue = clamp(G.p.fatigue + 5, 0, 100);
         gainXp('agility', 2);
@@ -3893,7 +4512,11 @@
           if (movable.length) {
             const npc = movable[r(movable.length)];
             const conns = ROOM_CONNECTIONS[npc.loc];
-            if (conns && conns.length) npc.loc = conns[r(conns.length)];
+            if (conns && conns.length) {
+              const dest = conns[r(conns.length)];
+              // NPCs are also blocked by locked rooms
+              if (!ROOMS[dest].locked) npc.loc = dest;
+            }
           }
         }
         fullUpdate();
@@ -4059,6 +4682,9 @@
           case 'explore':
             doExplore();
             break;
+          case 'special':
+            doSpecialRoom();
+            break;
           case 'move':
             switchTab('map');
             toast('지도에서 이동할 구역 클릭', '');
@@ -4100,6 +4726,66 @@
         fullUpdate();
       }
 
+      // ── SPECIAL ROOM ACTIONS ──
+      function doSpecialRoom() {
+        const p = G.p;
+        const loc = p.loc;
+        if (loc === 'gym') {
+          showModal('// 체육관', '체력 단련 기구가 나뒹굴고 있다.', [
+            {
+              label: '💪 운동하기',
+              sub: '근력 경험치 획득. 피로도, 식욕 +10 증가.',
+              action: () => {
+                p.fatigue = clamp(p.fatigue + 10, 0, 100);
+                p.hunger = clamp(p.hunger + 10, 0, 100);
+                gainXp('strength', 15);
+                log('땀을 흘리며 운동했다. 몸이 약간 단련된 기분이다.', 'ok');
+              },
+            },
+            { label: '돌아가기', sub: '', action: () => {} },
+          ]);
+        } else if (loc === 'library') {
+          showModal('// 도서관', '먼지 쌓인 책들이 꽂혀 있다.', [
+            {
+              label: '📚 공부하기',
+              sub: '지능 경험치 획득. 피로도 +10.',
+              action: () => {
+                p.fatigue = clamp(p.fatigue + 10, 0, 100);
+                gainXp('intel', 15);
+                log('조용히 책을 읽으며 지식을 채웠다.', 'ok');
+              },
+            },
+            { label: '돌아가기', sub: '', action: () => {} },
+          ]);
+        } else if (loc === 'classroom_b') {
+          const hasKit = hasItem('first_aid') || hasItem('antibiotics');
+          showModal('// 3학년 B반', '아파서 끙끙 앓는 학생들이 모여 있다.', [
+            {
+              label: '🩺 치료 돕기 (의료품 필요)',
+              sub: '의료/사회 경험치 및 평판 대폭 상승. 구급키트나 항생제 1개 소모.',
+              disabled: !hasKit,
+              action: () => {
+                if (!hasKit) return;
+                if (hasItem('first_aid')) removeItem('first_aid');
+                else removeItem('antibiotics');
+                p.fatigue = clamp(p.fatigue + 15, 0, 100);
+                gainXp('medical', 20);
+                gainXp('social', 15);
+                p.rep = clamp(p.rep + 15, 0, 100);
+                log(
+                  '부상자들을 성심껏 치료했다. 모두가 고마워한다. 평판 +15',
+                  'ok',
+                );
+              },
+            },
+            { label: '돌아가기', sub: '', action: () => {} },
+          ]);
+        } else {
+          toast('이 구역에서는 특수 행동이 불가하다', 'err');
+          log('여기서는 상호작용할 만한 특별한 시설이 보이지 않는다.', 'sy');
+        }
+      }
+
       // ── EXPLORE ──
       function doExplore() {
         const p = G.p;
@@ -4113,51 +4799,115 @@
         if (p.skills.agility >= 2) gainXp('agility', 2);
         const lk = rr();
         const sBonus = skillBonus('survival', 0.05);
-        if (lk < 0.2 + sBonus && room.food > 0) {
-          const f = r(2) + 1;
-          addItem('food_ration', f);
-          G.world.totalFood += f;
-          room.food = Math.max(0, room.food - f);
-          log(`[${room.name}] 식량 ${f}개 발견.`, 'ok');
-        } else if (lk < 0.35 + sBonus && room.items && room.items.length) {
-          const item = room.items[r(room.items.length)];
-          addItem(item);
+        const stealthBonus = skillBonus('stealth', 0.05);
+
+        // Victim pool for theft (living NPCs)
+        const victims = G.people.filter((x) => x.alive && x.id !== 'daegyeom');
+
+        if (lk < 0.35 + sBonus && victims.length > 0) {
+          // Steal specific item from NPC in room if available, otherwise from world
+          const pool = victims.filter(
+            (x) => x.loc === p.loc && x.inventory.length > 0,
+          );
+          const target = pool.length
+            ? pool[r(pool.length)]
+            : victims.find((x) => x.inventory.length > 0);
+
+          if (target) {
+            const itemIdx = r(target.inventory.length);
+            const stolen = target.inventory.splice(itemIdx, 1)[0];
+            addItem(stolen);
+            const itemName = ITEMS[stolen] ? ITEMS[stolen].name : stolen;
+            const caught =
+              rr() > 0.5 + stealthBonus + (p.loc === target.loc ? 0 : 0.2);
+
+            if (caught && p.loc === target.loc) {
+              changeAff(target.id, -12);
+              p.rep = Math.max(0, (p.rep || 0) - 6);
+              log(
+                `[${room.name}] ${target.name}${josa(target.name, '을/를')} 훔쳐내다 들켰다! 평판 -6`,
+                'da',
+              );
+            } else {
+              log(
+                `[${room.name}] ${target.name}의 가방에서 ${itemName}${josa(itemName, '을/를')} 슬쩍했다.`,
+                'ok',
+              );
+              gainXp('stealth', 3);
+            }
+          } else {
+            log(
+              `[${room.name}] 주변을 뒤졌으나 누군가의 흔적만 있을 뿐이다.`,
+              'sy',
+            );
+          }
+        } else if (lk < 0.7 + sBonus) {
+          // Find standard crafting materials (Significantly increased rate)
+          const mats = ['scrap_metal', 'cloth', 'glass_shard'];
+          const mat = mats[r(mats.length)];
+          addItem(mat);
           log(
-            `[${room.name}] ${ITEMS[item] ? ITEMS[item].name : item}을(를) 발견했다.`,
+            `[${room.name}] 쓸만한 ${ITEMS[mat].name}${josa(ITEMS[mat].name, '을/를')} 주웠다.`,
             'ok',
           );
-          room.items = room.items.filter((i) => i !== item);
-        } else if (lk < 0.5) {
-          const cash = r(120) + 20;
-          p.money += cash;
-          log(`[${room.name}] 방치된 가방에서 ${cash}원 발견.`, 'ok');
-        } else if (lk < 0.65) {
-          addItem('water_bottle');
-          log(`[${room.name}] 수도에서 물을 받았다.`, 'ok');
-        } else if (lk < 0.72 && room.dangerLevel >= 2) {
+          // Rare chance for Mirror in hallways/locker rooms
+          if (
+            rr() < 0.1 &&
+            (p.loc.includes('hallway') || p.loc === 'locker_room')
+          ) {
+            addItem('mirror');
+            log(
+              `[탐색] 바닥에 떨어진 낡은 거울${josa('거울', '을/를')} 발견했다.`,
+              'ok',
+            );
+          }
+        } else if (lk < 0.85 && victims.length > 0) {
+          // Steal money
+          const moneyVictims = victims.filter((v) => v.money > 20);
+          const target = moneyVictims.length
+            ? moneyVictims[r(moneyVictims.length)]
+            : victims[r(victims.length)];
+          const maxSteal = Math.min(target.money, r(150) + 50);
+          if (maxSteal > 0) {
+            target.money -= maxSteal;
+            p.money += maxSteal;
+            const caught = rr() > 0.55 + stealthBonus;
+            if (caught && p.loc === target.loc) {
+              changeAff(target.id, -15);
+              p.rep = Math.max(0, (p.rep || 0) - 8);
+              log(
+                `[${room.name}] ${target.name}${josa(target.name, '을/를')} 털다 들켰다! 평판 -8`,
+                'da',
+              );
+            } else {
+              log(
+                `[${room.name}] ${target.name}${josa(target.name, '이/가')} 흘린 ${maxSteal}원을 주워 담았다.`,
+                'ok',
+              );
+              gainXp('stealth', 4);
+            }
+          } else {
+            log(`[${room.name}] 빈 지갑뿐이다.`, 'sy');
+          }
+        } else if (lk < 0.82 && room.dangerLevel >= 2) {
           const dmg = r(12) + 5;
           p.hp = Math.max(0, p.hp - dmg);
           p.injured = true;
-          log(`[${room.name}] 탐색 중 부딪혔다. HP -${dmg}. 부상.`, 'da');
-        } else if (lk < 0.78 && room.dangerLevel >= 3) {
-          p.sick = true;
-          log(`[${room.name}] 오염된 것을 건드렸다. 병에 걸렸다.`, 'da');
-        } else if (lk < 0.85) {
-          // 정보 발견
+          log(
+            `[${room.name}] 탐색 중 날카로운 것에 찔렸다. HP -${dmg}. 부상.`,
+            'da',
+          );
+        } else if (lk < 0.9) {
           const infoKeys = Object.keys(INFO_DB);
           const unlrn = infoKeys.filter((k) => !p.knownInfo.includes(k));
           if (unlrn.length) {
             learnInfo(unlrn[r(unlrn.length)]);
             gainXp('intel', 5);
-          } else log(`[${room.name}] 특이한 점을 발견하지 못했다.`, 'sy');
+          } else log(`[${room.name}] 특별한 정보를 찾지 못했다.`, 'sy');
         } else {
-          const msgs = [
-            `[${room.name}] 아무것도 없다.`,
-            `[${room.name}] 이미 다 털린 것 같다.`,
-            `[${room.name}] 구석에 먼지뿐이다.`,
-          ];
-          log(msgs[r(msgs.length)], 'sy');
+          log(`[${room.name}] 아무것도 찾지 못했다.`, 'sy');
         }
+        updateGlobalResources();
       }
 
       // ── SCOUT ──
@@ -4267,7 +5017,10 @@
         } else {
           changeAff(target.id, 5);
           gainXp('social', 3);
-          log(`${target.name}을(를) 달랬다. 호감도 +5`, 'ok');
+          log(
+            `${target.name}${josa(target.name, '을/를')} 달랬다. 호감도 +5`,
+            'ok',
+          );
         }
       }
 
@@ -4351,7 +5104,7 @@
       function showNpcTradeModal(per) {
         const p = G.p;
         if (!per.inventory || per.inventory.length === 0) {
-          toast(`${per.name}은(는) 가진 게 없다`, 'err');
+          toast(`${per.name}${josa(per.name, '은/는')} 가진 게 없다`, 'err');
           return;
         }
         // Deduplicate NPC inventory for display
@@ -4360,9 +5113,33 @@
           counts[id] = (counts[id] || 0) + 1;
         });
         const choices = [];
+        // NPC Trade Intelligence: determine what NPC is willing to sell
+        const essentialFood = ['food_ration', 'canned_food'];
+        const essentialWater = ['water_bottle'];
+        const weapons = ['knife', 'bat', 'taser'];
+        const medical = ['first_aid', 'antibiotics'];
+        const foodCount = per.inventory.filter((i) =>
+          essentialFood.includes(i),
+        ).length;
+        const waterCount = per.inventory.filter((i) =>
+          essentialWater.includes(i),
+        ).length;
+
         Object.entries(counts).forEach(([itemId, qty]) => {
           const item = ITEMS[itemId];
           if (!item) return;
+          // NPC keeps essential items based on trait/condition
+          if (essentialFood.includes(itemId) && foodCount <= 2) return; // keep last food
+          if (essentialWater.includes(itemId) && waterCount <= 2) return; // keep last water
+          if (
+            weapons.includes(itemId) &&
+            (per.trait === 'aggressive' ||
+              per.trait === 'paranoid' ||
+              per.trait === 'stealthy')
+          )
+            return;
+          if (medical.includes(itemId) && per.hp < per.maxhp * 0.5) return; // keep meds if injured
+          if (per.trait === 'hoarder' && rr() < 0.6) return; // hoarders often refuse
           const price = tradePrice(item.price || 100, per);
           if (price < 0) return;
           choices.push({
@@ -4384,6 +5161,7 @@
               const iName = item.name;
               log(`[거래] ${per.name}에게서 ${iName} 구매 (${price}원)`, 'ok');
               gainXp('social', 3);
+              updateGlobalResources();
               // Reopen trade if they still have items
               if (per.inventory.length > 0) showNpcTradeModal(per);
             },
@@ -4638,71 +5416,143 @@
       // ── CRAFT MODAL ──
       function doCraftModal() {
         const p = G.p;
-        showModal('// 제작/업그레이드', '재료를 이용해 아이템을 만든다.', [
+        const successRate = (items, rate) => {
+          const base = rate || 0.85;
+          const bonus = skillBonus('intel', 0.05);
+          const final = clamp(base + bonus, 0.5, 0.98);
+          if (rr() < final) return true;
+          // Failure: Destroy items
+          items.forEach((id) => removeItem(id));
+          return false;
+        };
+
+        const choices = [
           {
-            label: '임시 무기 (200원) → 파이프',
-            sub: p.weapon ? '무기 이미 있음' : '',
+            label: '── [기본] 생존 자재 ──',
+            sub: '아이템 제작의 기초',
+            disabled: true,
+            action: () => {},
+          },
+          {
+            label: `거울 조각 (고철+유리)`,
+            sub:
+              hasItem('scrap_metal') && hasItem('glass_shard')
+                ? '제작 가능 (성공률 95%)'
+                : '고철 조각, 유리 파편 필요',
             action: () => {
-              if (p.weapon) {
-                toast('무기 이미 있음', 'err');
+              if (!hasItem('scrap_metal') || !hasItem('glass_shard')) {
+                toast('재료 부족', 'err');
                 return;
               }
-              if (p.money < 200) {
-                toast('돈 부족', 'err');
-                return;
+              const components = ['scrap_metal', 'glass_shard'];
+              if (successRate(components, 0.95)) {
+                components.forEach((c) => removeItem(c));
+                addItem('mirror');
+                log(
+                  '[제작] 거울을 만들었다. 신호를 보내거나 시야 방해 가능.',
+                  'ok',
+                );
+                gainXp('intel', 5);
+              } else {
+                log('[실패] 제작 도중 유리 파편이 박살났다! 재료 소실.', 'da');
               }
-              p.money -= 200;
-              addItem('pipe');
-              p.weapon = 'pipe';
-              log('파이프 무기 제작 (200원). 장착.', 'ok');
-              gainXp('combat', 5);
             },
           },
           {
-            label: `화염병 제작 (라이터+화학약품)`,
+            label: '── [아이템] 유틸리티 ──',
+            sub: '현장 유용한 물건',
+            disabled: true,
+            action: () => {},
+          },
+          {
+            label: `화염병 (라이터+화학약품)`,
             sub:
               hasItem('lighter') && hasItem('chemicals')
-                ? '재료 있음'
+                ? '제작 가능 (성공률 85%)'
                 : '라이터, 화학약품 필요',
             action: () => {
+              const components = ['lighter', 'chemicals'];
               if (!hasItem('lighter') || !hasItem('chemicals')) {
                 toast('재료 부족', 'err');
                 return;
               }
-              removeItem('lighter');
-              removeItem('chemicals');
-              addItem('molotov');
-              log('화염병 제작. 전투에서 강력하다.', 'ok');
-              gainXp('combat', 8);
+              if (successRate(components, 0.85)) {
+                components.forEach((c) => removeItem(c));
+                addItem('molotov');
+                log('[제작] 화염병 제작 완료. 전투에서 치명적이다.', 'ok');
+                gainXp('combat', 8);
+              } else {
+                log(
+                  '[실패] 화학약품이 쏟아져 화염병 제작에 실패했다! 재료 소실.',
+                  'da',
+                );
+              }
             },
           },
           {
-            label: `방독면 제작 (천+화학약품)`,
-            sub: hasItem('chemicals') ? '화학약품 있음' : '화학약품 필요',
+            label: `조잡한 폭탄 (화학약품+화학약품+고철)`,
+            sub:
+              hasItem('chemicals', 2) && hasItem('scrap_metal')
+                ? '제작 가능 (성공률 70%)'
+                : '화학약품 2개, 고철 조각 필요',
             action: () => {
-              if (!hasItem('chemicals')) {
+              const components = ['chemicals', 'chemicals', 'scrap_metal'];
+              if (countItem('chemicals') < 2 || !hasItem('scrap_metal')) {
                 toast('재료 부족', 'err');
                 return;
               }
-              removeItem('chemicals');
-              addItem('gas_mask');
-              log('방독면 제작. 화학 가스 방어.', 'ok');
-              gainXp('survival', 8);
+              if (successRate(components, 0.7)) {
+                components.forEach((c) => removeItem(c));
+                addItem('improvised_bomb');
+                log(
+                  '[제작] 조잡한 폭탄 완성. 무언가 부수기에 안성맞춤이다.',
+                  'ok',
+                );
+                gainXp('intel', 12);
+              } else {
+                log(
+                  '[실패] 조합 오류로 폭발 직전에 멈췄다! 재료가 오염되어 소실되었다.',
+                  'da',
+                );
+              }
             },
           },
           {
-            label: `라디오 수리 (100원)`,
-            sub: '외부 정보 수신',
+            label: '── [강화] 장비 업그레이드 ──',
+            sub: '장비 개조 (실패 시 원본 파괴 위험)',
+            disabled: true,
+            action: () => {},
+          },
+
+          {
+            label: `보강된 옷 (두꺼운 옷+고철+천)`,
+            sub:
+              hasItem('warm_clothes') &&
+              hasItem('scrap_metal') &&
+              hasItem('cloth')
+                ? '강화 가능 (성공률 85%)'
+                : '두꺼운 옷, 고철, 천 필요',
             action: () => {
-              if (p.money < 100) {
-                toast('돈 부족', 'err');
+              const components = ['warm_clothes', 'scrap_metal', 'cloth'];
+              if (
+                !hasItem('warm_clothes') ||
+                !hasItem('scrap_metal') ||
+                !hasItem('cloth')
+              ) {
+                toast('재료 부족', 'err');
                 return;
               }
-              p.money -= 100;
-              addItem('radio');
-              log('라디오 수리 완료. 외부 신호를 잡을 수 있다.', 'ok');
-              gainXp('intel', 10);
-              log('[라디오] "...구조대 파견 예정... 3일...잡음..."', 'in');
+              if (successRate(components, 0.85)) {
+                components.forEach((c) => removeItem(c));
+                addItem('reinforced_armor');
+                log(
+                  '[강화] 옷에 고철을 덧대었다. 방어 능력이 향상되었다.',
+                  'ok',
+                );
+                gainXp('survival', 12);
+              } else {
+                log('[실패] 옷감이 찢어지고 고철이 탈락했다! 장비 파괴.', 'da');
+              }
             },
           },
           {
@@ -4719,8 +5569,50 @@
               log('불을 피웠다. 따뜻하다. 심리+10', 'ok');
             },
           },
-          { label: '취소', sub: '', action: () => {} },
-        ]);
+          { label: '닫기', sub: '', action: () => {} },
+        ];
+        // Dynamically add weapon enhancements (+1 to +9)
+        for (let i = 1; i <= 9; i++) {
+          const prevItem = i === 1 ? 'bat' : `bat_${i - 1}`;
+          const nextItem = `bat_${i}`;
+          const chance = clamp(0.95 - i * 0.05, 0.45, 0.95);
+          choices.splice(choices.length - 1, 0, {
+            label: `[+${i}] 몽둥이 강화 (${ITEMS[prevItem].name}+고철)`,
+            sub:
+              hasItem(prevItem) && hasItem('scrap_metal')
+                ? `강화 가능 (기본 확률 ${Math.round(chance * 100)}%)`
+                : `${ITEMS[prevItem].name}, 고철 조각 필요`,
+            action: () => {
+              const components = [prevItem, 'scrap_metal'];
+              if (!hasItem(prevItem) || !hasItem('scrap_metal')) {
+                toast('재료 부족', 'err');
+                return;
+              }
+              if (successRate(components, chance)) {
+                components.forEach((c) => removeItem(c));
+                addItem(nextItem);
+                if (p.weapon === prevItem) p.weapon = nextItem;
+                log(
+                  `[강화 성공] ${ITEMS[nextItem].name} 제작 완료! 위력이 상승했다.`,
+                  'ok',
+                );
+                gainXp('combat', 5);
+              } else {
+                log(
+                  `[강화 실패] 무리한 개조로 무기가 산산조각 났다... 장비 소실.`,
+                  'da',
+                );
+                if (p.weapon === prevItem) p.weapon = null;
+              }
+            },
+          });
+        }
+
+        showModal(
+          '// 제작 및 강화',
+          '보유한 재료로 장비를 개선합니다. (상위 제작은 실패 확률이 존재합니다)',
+          choices,
+        );
       }
 
       // ── USE ITEM ──
@@ -4800,42 +5692,46 @@
         }
         switch (p.charClass) {
           case 'excley': {
-            // Miss Excley: 교사 권위 - NPC들을 명령할 수 있음
-            showModal('// 교사 권위', '권위를 이용해 NPC를 통제한다.', [
-              {
-                label: '학생들에게 배급 명령',
-                sub: '치안+8, 평판+10',
-                action: () => {
-                  G.world.order = clamp(G.world.order + 8, 0, 100);
-                  p.rep = clamp(p.rep + 10, 0, 100);
-                  log('[특수] 교사 권위로 배급 질서를 유지시켰다.', 'ok');
-                  p.specialCooldown = 20;
+            // Miss Excley: 지옥의 영어교사 - NPC들을 엄격하게 관리
+            showModal(
+              '// 지옥의 영어교사',
+              '깐깐한 잣대로 학생들을 통제한다.',
+              [
+                {
+                  label: '학생들에게 배급 명령',
+                  sub: '치안+8, 평판+10',
+                  action: () => {
+                    G.world.order = clamp(G.world.order + 8, 0, 100);
+                    p.rep = clamp(p.rep + 10, 0, 100);
+                    log('[특수] 교사 권위로 배급 질서를 유지시켰다.', 'ok');
+                    p.specialCooldown = 20;
+                  },
                 },
-              },
-              {
-                label: 'NPC 정보 강제 수집',
-                sub: '임의 NPC 정보 2개 획득',
-                action: () => {
-                  let got = 0;
-                  G.people
-                    .filter((x) => x.alive && x.info.length)
-                    .forEach((x) => {
-                      if (got < 2) {
-                        const u = x.info.filter(
-                          (i) => !p.knownInfo.includes(i),
-                        );
-                        if (u.length) {
-                          learnInfo(u[0]);
-                          got++;
+                {
+                  label: 'NPC 정보 강제 수집',
+                  sub: '임의 NPC 정보 2개 획득',
+                  action: () => {
+                    let got = 0;
+                    G.people
+                      .filter((x) => x.alive && x.info.length)
+                      .forEach((x) => {
+                        if (got < 2) {
+                          const u = x.info.filter(
+                            (i) => !p.knownInfo.includes(i),
+                          );
+                          if (u.length) {
+                            learnInfo(u[0]);
+                            got++;
+                          }
                         }
-                      }
-                    });
-                  log(`[특수] 교사 권위로 정보 ${got}개 획득.`, 'ok');
-                  p.specialCooldown = 25;
+                      });
+                    log(`[특수] 교사 권위로 정보 ${got}개 획득.`, 'ok');
+                    p.specialCooldown = 25;
+                  },
                 },
-              },
-              { label: '닫기', sub: '', action: () => {} },
-            ]);
+                { label: '닫기', sub: '', action: () => {} },
+              ],
+            );
             break;
           }
           case 'junkyu': {
@@ -4891,42 +5787,46 @@
             break;
           }
           case 'sebastian': {
-            // 세바스찬: 가디언 - 전투/보호 특화
-            showModal('// 가디언', '보호자 본능이 발동했다.', [
-              {
-                label: '순찰 실시',
-                sub: '치안+12, 인근 NPC 보호',
-                action: () => {
-                  G.world.order = clamp(G.world.order + 12, 0, 100);
-                  const nearNpc = G.people.filter(
-                    (x) => x.alive && x.loc === p.loc,
-                  );
-                  nearNpc.forEach((n) => {
-                    n.hp = Math.min(n.maxhp, n.hp + 5);
-                    changeAff(n.id, 5);
-                  });
-                  log(
-                    `[특수] 순찰 실시. 치안+12. ${nearNpc.length}명 보호.`,
-                    'ok',
-                  );
-                  gainXp('combat', 10);
-                  p.specialCooldown = 25;
+            // 세바스찬: 보호자 본능 - 어른으로서의 책임감
+            showModal(
+              '// 보호자 본능',
+              '아이들을 지켜야 한다는 본능이 발동했다.',
+              [
+                {
+                  label: '순찰 실시',
+                  sub: '치안+12, 인근 NPC 보호',
+                  action: () => {
+                    G.world.order = clamp(G.world.order + 12, 0, 100);
+                    const nearNpc = G.people.filter(
+                      (x) => x.alive && x.loc === p.loc,
+                    );
+                    nearNpc.forEach((n) => {
+                      n.hp = Math.min(n.maxhp, n.hp + 5);
+                      changeAff(n.id, 5);
+                    });
+                    log(
+                      `[특수] 순찰 실시. 치안+12. ${nearNpc.length}명 보호.`,
+                      'ok',
+                    );
+                    gainXp('combat', 10);
+                    p.specialCooldown = 25;
+                  },
                 },
-              },
-              {
-                label: '위협 제압',
-                sub: '현재 구역 위험도 감소',
-                action: () => {
-                  const room = ROOMS[p.loc];
-                  room.dangerLevel = Math.max(0, room.dangerLevel - 2);
-                  G.world.order = clamp(G.world.order + 6, 0, 100);
-                  log(`[특수] ${room.name} 위협 제압. 위험도 감소.`, 'ok');
-                  gainXp('combat', 8);
-                  p.specialCooldown = 20;
+                {
+                  label: '위협 제압',
+                  sub: '현재 구역 위험도 감소',
+                  action: () => {
+                    const room = ROOMS[p.loc];
+                    room.dangerLevel = Math.max(0, room.dangerLevel - 2);
+                    G.world.order = clamp(G.world.order + 6, 0, 100);
+                    log(`[특수] ${room.name} 위협 제압. 위험도 감소.`, 'ok');
+                    gainXp('combat', 8);
+                    p.specialCooldown = 20;
+                  },
                 },
-              },
-              { label: '닫기', sub: '', action: () => {} },
-            ]);
+                { label: '닫기', sub: '', action: () => {} },
+              ],
+            );
             break;
           }
           case 'shinwon': {
@@ -5060,6 +5960,488 @@
             p.specialCooldown = 20;
             break;
           }
+          case 'tiffany': {
+            // 티파니: 유혹 - 주변 남자 NPC들의 호감도 급상승 + 선물 획득
+            const nearNpc = G.people.filter(
+              (x) => x.alive && x.loc === p.loc && x.id !== 'daegyeom',
+            );
+            if (nearNpc.length) {
+              let gifts = 0;
+              nearNpc.forEach((n) => {
+                changeAff(n.id, 15);
+                if (rr() < 0.35 && n.inventory && n.inventory.length > 0) {
+                  const itemIdx = r(n.inventory.length);
+                  const item = n.inventory.splice(itemIdx, 1)[0];
+                  addItem(item);
+                  gifts++;
+                  const itemName = ITEMS[item] ? ITEMS[item].name : item;
+                  log(
+                    `[특수] ${n.name}${josa(n.name, '이/가')} ${itemName}${josa(itemName, '을/를')} 선물했다.`,
+                    'ok',
+                  );
+                }
+              });
+              log(
+                `[특수] 매혹의 미소! ${nearNpc.length}명 호감도 +15.${gifts > 0 ? ` 선물 ${gifts}개 획득!` : ''}`,
+                'ok',
+              );
+            } else log('[특수] 매혹할 대상이 없다.', 'sy');
+            p.specialCooldown = 18;
+            break;
+          }
+          case 'naip': {
+            // 나입: 거리의 밀거래 - 뒷골목 루트를 통한 거래
+            const rareStock = [
+              'gas_mask',
+              'radio',
+              'antibiotics',
+              'first_aid',
+              'phone',
+              'warm_clothes',
+              'secret_tunnel_note',
+            ];
+            const available = rareStock.sort(() => rr() - 0.5).slice(0, 3);
+            const choices = available.map((itemId) => {
+              const item = ITEMS[itemId];
+              const price = Math.floor((item.price || 200) * 0.7);
+              return {
+                label: `구매: ${item.icon} ${item.name} — ${price}원`,
+                sub: item.desc,
+                action: () => {
+                  if (p.money < price) {
+                    toast('돈 부족', 'err');
+                    return;
+                  }
+                  p.money -= price;
+                  addItem(itemId);
+                  log(
+                    `[특수] 암시장 거래. ${item.name} 구매 (${price}원).`,
+                    'ok',
+                  );
+                  gainXp('social', 5);
+                },
+              };
+            });
+            // Sell option: sell any item at 1.5x
+            if (p.inventory.length > 0) {
+              choices.push({
+                label: '── 프리미엄 판매 ──',
+                sub: '보유 아이템을 1.5배 가격에 판매',
+                disabled: true,
+                action: () => {},
+              });
+              const added = new Set();
+              p.inventory.forEach((inv) => {
+                if (added.has(inv.id)) return;
+                added.add(inv.id);
+                const item = ITEMS[inv.id];
+                if (!item) return;
+                const sellPrice = Math.floor((item.price || 100) * 1.5);
+                choices.push({
+                  label: `판매: ${item.icon} ${item.name} — ${sellPrice}원`,
+                  sub: `프리미엄 가격`,
+                  action: () => {
+                    removeItem(inv.id);
+                    p.money += sellPrice;
+                    log(
+                      `[특수] 프리미엄 판매. ${item.name} → ${sellPrice}원.`,
+                      'ok',
+                    );
+                    gainXp('social', 3);
+                  },
+                });
+              });
+            }
+            choices.push({ label: '닫기', sub: '', action: () => {} });
+            showModal(
+              '// 거리의 밀거래',
+              '뒷골목 루트로 귀한 물건을 거래한다.',
+              choices,
+            );
+            p.specialCooldown = 20;
+            break;
+          }
+          case 'rednic': {
+            // 레드닉: 소매치기 - NPC에게서 아이템 훔치기 + 리셀
+            const targets = G.people.filter(
+              (x) =>
+                x.alive &&
+                x.loc === p.loc &&
+                x.id !== 'daegyeom' &&
+                x.inventory &&
+                x.inventory.length > 0,
+            );
+            if (targets.length) {
+              const target = targets[r(targets.length)];
+              const stealChance = 0.7 + skillBonus('stealth', 0.05);
+              if (rr() < stealChance) {
+                const itemIdx = r(target.inventory.length);
+                const stolenItem = target.inventory.splice(itemIdx, 1)[0];
+                const item = ITEMS[stolenItem];
+                const resellPrice = Math.floor((item ? item.price : 100) * 0.6);
+                const itemName = item ? item.name : stolenItem;
+                showModal(
+                  '// 소매치기 성공',
+                  `${target.name}에게서 ${itemName}${josa(itemName, '을/를')} 훔쳤다!`,
+                  [
+                    {
+                      label: `보관 (인벤토리에 추가)`,
+                      sub: item ? item.desc : '',
+                      action: () => {
+                        const itemName = item ? item.name : stolenItem;
+                        addItem(stolenItem);
+                        log(
+                          `[특수] ${target.name}에게서 ${itemName}${josa(itemName, '을/를')} 소매치기 성공!`,
+                          'ok',
+                        );
+                      },
+                    },
+                    {
+                      label: `즉시 리셀 (+${resellPrice}원)`,
+                      sub: '훔친 물건을 바로 현금화',
+                      action: () => {
+                        const itemName = item ? item.name : stolenItem;
+                        p.money += resellPrice;
+                        log(
+                          `[특수] 훔친 ${itemName}${josa(itemName, '을/를')} 리셀. +${resellPrice}원!`,
+                          'ok',
+                        );
+                      },
+                    },
+                    {
+                      label: '닫기',
+                      sub: '',
+                      action: () => {
+                        addItem(stolenItem);
+                      },
+                    },
+                  ],
+                );
+                changeAff(target.id, -15);
+                gainXp('stealth', 10);
+              } else {
+                changeAff(target.id, -25);
+                const dmg = 5 + r(10);
+                p.hp = Math.max(0, p.hp - dmg);
+                log(
+                  `[특수] 소매치기 실패! ${target.name}에게 들켰다. HP -${dmg}`,
+                  'da',
+                );
+              }
+            } else log('[특수] 훔칠 대상이 없다.', 'sy');
+            p.specialCooldown = 15;
+            break;
+          }
+          case 'rako': {
+            // 라코: 재력 과시 - 돈으로 식량/물 구매하여 주변에 배분
+            if (p.money < 500) {
+              log('[특수] 자금 부족. 최소 500원 필요.', 'sy');
+              break;
+            }
+            showModal('// 재력 과시', '돈으로 해결한다.', [
+              {
+                label: '식량 대량 구매 (500원)',
+                sub: '식량 3개 획득 + 주변 NPC 호감도 상승',
+                action: () => {
+                  p.money -= 500;
+                  addItem('food_ration', 3);
+                  const nearNpc = G.people.filter(
+                    (x) => x.alive && x.loc === p.loc,
+                  );
+                  nearNpc.forEach((n) => changeAff(n.id, 10));
+                  log(
+                    `[특수] 재력 과시! 식량 3개 획득. ${nearNpc.length}명 호감도+10.`,
+                    'ok',
+                  );
+                  gainXp('social', 8);
+                  p.specialCooldown = 25;
+                },
+              },
+              {
+                label: '안전 구역 매수 (1000원)',
+                sub: '현재 구역 위험도 0으로 설정',
+                action: () => {
+                  if (p.money < 1000) {
+                    toast('돈 부족 (1000원 필요)', 'err');
+                    return;
+                  }
+                  p.money -= 1000;
+                  ROOMS[p.loc].dangerLevel = 0;
+                  ROOMS[p.loc].safe = true;
+                  G.world.order = clamp(G.world.order + 10, 0, 100);
+                  log(
+                    `[특수] ${ROOMS[p.loc].name}${josa(ROOMS[p.loc].name, '을/를')} 안전 구역으로 매수했다.`,
+                    'ok',
+                  );
+                  gainXp('social', 12);
+                  p.specialCooldown = 40;
+                },
+              },
+              { label: '닫기', sub: '', action: () => {} },
+            ]);
+            break;
+          }
+          case 'jerry': {
+            // 제리: 의료 지원 - 돈으로 치료
+            showModal('// 제리의 지원', '돈으로 도움을 준다.', [
+              {
+                label: '자가 치료 (300원)',
+                sub: 'HP+30, 부상/감염 치료',
+                action: () => {
+                  if (p.money < 300) {
+                    toast('돈 부족', 'err');
+                    return;
+                  }
+                  p.money -= 300;
+                  p.hp = clamp(p.hp + 30, 0, p.maxhp);
+                  p.injured = false;
+                  p.infected = false;
+                  log('[특수] 자가 치료 완료. HP+30.', 'ok');
+                  gainXp('medical', 8);
+                  p.specialCooldown = 20;
+                },
+              },
+              {
+                label: 'NPC 치료 봉사 (200원)',
+                sub: '주변 NPC HP 회복 + 호감도 대량 상승',
+                action: () => {
+                  if (p.money < 200) {
+                    toast('돈 부족', 'err');
+                    return;
+                  }
+                  p.money -= 200;
+                  const nearNpc = G.people.filter(
+                    (x) => x.alive && x.loc === p.loc,
+                  );
+                  nearNpc.forEach((n) => {
+                    n.hp = Math.min(n.maxhp, n.hp + 15);
+                    changeAff(n.id, 12);
+                  });
+                  log(
+                    `[특수] 봉사 치료. ${nearNpc.length}명 HP+15, 호감도+12.`,
+                    'ok',
+                  );
+                  gainXp('medical', 10);
+                  gainXp('social', 6);
+                  p.specialCooldown = 25;
+                },
+              },
+              { label: '닫기', sub: '', action: () => {} },
+            ]);
+            break;
+          }
+          case 'cat': {
+            // 고양이: 본능 - 회피/사냥/낮잠
+            showModal('// 고양이 본능', '미야옹.', [
+              {
+                label: '🐭 쥐 사냥',
+                sub: '50% 확률로 식량 1개 획득',
+                action: () => {
+                  if (rr() < 0.5) {
+                    addItem('food_ration');
+                    log('[특수] 미야옹! 🐭 쥐를 잡았다! 식량 +1.', 'ok');
+                  } else {
+                    log('[특수] 쥐를 놓쳤다... 미야옹.', 'sy');
+                  }
+                  gainXp('agility', 5);
+                  gainXp('survival', 5);
+                  p.specialCooldown = 12;
+                },
+              },
+              {
+                label: '😴 낮잠',
+                sub: 'HP+15, 피로-20',
+                action: () => {
+                  p.hp = clamp(p.hp + 15, 0, p.maxhp);
+                  p.fatigue = clamp(p.fatigue - 20, 0, 100);
+                  log('[특수] 가르릉... 낮잠을 잤다. HP+15, 피로-20.', 'ok');
+                  p.specialCooldown = 15;
+                },
+              },
+              {
+                label: '🏃 은신',
+                sub: '즉시 랜덤 구역으로 도주 (위험도 0 구역 우선)',
+                action: () => {
+                  const safeRooms = Object.entries(ROOMS).filter(
+                    ([k, v]) => v.safe && k !== p.loc,
+                  );
+                  if (safeRooms.length) {
+                    const dest = safeRooms[r(safeRooms.length)][0];
+                    p.loc = dest;
+                    log(
+                      `[특수] 스르르... ${ROOMS[dest].name}(으)로 도주했다.`,
+                      'ok',
+                    );
+                  } else {
+                    const allRooms = Object.keys(ROOMS).filter(
+                      (k) => k !== p.loc,
+                    );
+                    const dest = allRooms[r(allRooms.length)];
+                    p.loc = dest;
+                    log(`[특수] ${ROOMS[dest].name}(으)로 도주했다.`, 'ok');
+                  }
+                  gainXp('agility', 8);
+                  gainXp('stealth', 8);
+                  p.specialCooldown = 10;
+                },
+              },
+              { label: '닫기', sub: '', action: () => {} },
+            ]);
+            break;
+          }
+          case 'dorian': {
+            // 도리안: 흑마법사 공연 - 팬덤 결집 or 대겸 정보 활용
+            showModal('// 흑마법 공연', '어둠의 카리스마가 발동한다.', [
+              {
+                label: '🎵 팬덤 결집',
+                sub: '주변 모든 NPC 호감도 +20, 정신력 +15',
+                action: () => {
+                  const nearNpc = G.people.filter(
+                    (x) => x.alive && x.loc === p.loc,
+                  );
+                  nearNpc.forEach((n) => changeAff(n.id, 20));
+                  p.sanity = clamp(p.sanity + 15, 0, 100);
+                  log(
+                    `[특수] 흑마법 공연! ${nearNpc.length}명이 열광한다. 호감도+20, 정신력+15.`,
+                    'ok',
+                  );
+                  gainXp('social', 12);
+                  p.specialCooldown = 25;
+                },
+              },
+              {
+                label: '🕳️ 대겸의 그림자',
+                sub: '대겸의 은밀한 정보를 입수 (위치/계획)',
+                action: () => {
+                  const dg = G.people.find((x) => x.id === 'daegyeom');
+                  if (dg) {
+                    log(
+                      `[특수] 대겸 현재 위치: ${ROOMS[dg.loc] ? ROOMS[dg.loc].name : '불명'}`,
+                      'in',
+                    );
+                    const dgInfo = [
+                      'daegyeom_plan',
+                      'daegyeom_location',
+                      'secret_tunnel',
+                    ];
+                    const unlrn = dgInfo.filter(
+                      (k) => !p.knownInfo.includes(k) && INFO_DB[k],
+                    );
+                    if (unlrn.length) learnInfo(unlrn[0]);
+                  }
+                  gainXp('intel', 10);
+                  p.specialCooldown = 30;
+                },
+              },
+              { label: '닫기', sub: '', action: () => {} },
+            ]);
+            break;
+          }
+          case 'hanjungyeon': {
+            // 한정연: 천재 분석 - 문제 해결 특화
+            showModal('// 천재의 분석', '운은 없지만 머리는 있다.', [
+              {
+                label: '📖 문제 해결',
+                sub: '미발견 정보 2개 자동 분석',
+                action: () => {
+                  const infoKeys = Object.keys(INFO_DB);
+                  const unlrn = infoKeys.filter(
+                    (k) => !p.knownInfo.includes(k),
+                  );
+                  let learned = 0;
+                  for (let i = 0; i < 2 && i < unlrn.length; i++) {
+                    learnInfo(unlrn[i]);
+                    learned++;
+                  }
+                  if (learned)
+                    log(
+                      `[특수] 천재적 분석! 정보 ${learned}개 해독 완료.`,
+                      'ok',
+                    );
+                  else log('[특수] 이미 모든 정보를 알고 있다.', 'sy');
+                  gainXp('intel', 15);
+                  p.specialCooldown = 20;
+                },
+              },
+              {
+                label: '🔧 즉석 제작',
+                sub: '주변 자원으로 유용한 아이템 제작',
+                action: () => {
+                  const craftable = ['first_aid', 'lock', 'sleeping_pills'];
+                  const item = craftable[r(craftable.length)];
+                  addItem(item);
+                  log(`[특수] 즉석 제작 성공! ${ITEMS[item].name} 획득.`, 'ok');
+                  gainXp('intel', 8);
+                  gainXp('survival', 5);
+                  // Bad luck event
+                  if (rr() < 0.3) {
+                    const dmg = r(8) + 3;
+                    p.hp = Math.max(0, p.hp - dmg);
+                    log(`[불운] 제작 중 손에 상처가... HP -${dmg}`, 'da');
+                  }
+                  p.specialCooldown = 18;
+                },
+              },
+              { label: '닫기', sub: '', action: () => {} },
+            ]);
+            break;
+          }
+          case 'woojin': {
+            // 김우진: 사운드 감지 - 위험 예측
+            showModal('// 사운드 스캔', '귀를 기울인다...', [
+              {
+                label: '👂 위험 감지',
+                sub: '인접 구역의 위험도와 NPC 정보 파악',
+                action: () => {
+                  const conns = ROOM_CONNECTIONS[p.loc] || [];
+                  conns.forEach((rid) => {
+                    const room = ROOMS[rid];
+                    const npcs = G.people.filter(
+                      (x) => x.alive && x.loc === rid,
+                    );
+                    const hostiles = npcs.filter(
+                      (x) => x.trait === 'aggressive' || x.trait === 'villain',
+                    );
+                    log(
+                      `[감지] ${room.name}: 위험도 ${room.dangerLevel}, ${npcs.length}명 존재${hostiles.length > 0 ? ' ⚠️위험인물!' : ''}`,
+                      hostiles.length > 0 ? 'da' : 'in',
+                    );
+                  });
+                  gainXp('intel', 8);
+                  gainXp('survival', 5);
+                  p.specialCooldown = 12;
+                },
+              },
+              {
+                label: '🔊 교란 방송',
+                sub: '인접 구역 NPC들을 혼란에 빠뜨림',
+                action: () => {
+                  const conns = ROOM_CONNECTIONS[p.loc] || [];
+                  let affected = 0;
+                  conns.forEach((rid) => {
+                    G.people
+                      .filter((x) => x.alive && x.loc === rid)
+                      .forEach((n) => {
+                        if (rr() < 0.5) {
+                          const newConns = ROOM_CONNECTIONS[rid] || [];
+                          if (newConns.length)
+                            n.loc = newConns[r(newConns.length)];
+                          affected++;
+                        }
+                      });
+                  });
+                  log(
+                    `[특수] 교란 방송! ${affected}명이 혼란에 빠져 이동했다.`,
+                    'ok',
+                  );
+                  gainXp('intel', 6);
+                  p.specialCooldown = 20;
+                },
+              },
+              { label: '닫기', sub: '', action: () => {} },
+            ]);
+            break;
+          }
           default:
             toast('특수 능력 없음', 'err');
         }
@@ -5089,9 +6471,9 @@
           G.people.forEach((p) => {
             if (!p.alive || p.id === 'daegyeom' || p.id === 'player') return;
 
-            // Hunger/Thirst Decay
-            p.hunger = clamp((p.hunger || 0) + 4, 0, 100);
-            p.thirst = clamp((p.thirst || 0) + 5, 0, 100);
+            // Hunger/Thirst Decay (Increased for faster depletion)
+            p.hunger = clamp((p.hunger || 0) + 6, 0, 100);
+            p.thirst = clamp((p.thirst || 0) + 8, 0, 100);
 
             // Consumption Logic
             if (p.hunger > 60) {
@@ -5100,7 +6482,10 @@
                 p.inventory.splice(foodIdx, 1);
                 p.hunger = clamp(p.hunger - 40, 0, 100);
                 if (p.loc === G.p.loc)
-                  log(`${p.name}이 배고픔에 식량을 먹었다.`, 'sy');
+                  log(
+                    `${p.name}${josa(p.name, '이/가')} 배고픔에 식량을 먹었다.`,
+                    'sy',
+                  );
               }
             }
             if (p.thirst > 60) {
@@ -5108,7 +6493,8 @@
               if (waterIdx > -1) {
                 p.inventory.splice(waterIdx, 1);
                 p.thirst = clamp(p.thirst - 50, 0, 100);
-                if (p.loc === G.p.loc) log(`${p.name}이 목을 축였다.`, 'sy');
+                if (p.loc === G.p.loc)
+                  log(`${p.name}${josa(p.name, '이/가')} 목을 축였다.`, 'sy');
               }
             }
 
@@ -5124,7 +6510,7 @@
                 p.inventory = [];
               }
               log(
-                `💀 [${ROOMS[p.loc].name}] ${p.name}이 굶주림/탈수로 사망했다.`,
+                `💀 [${ROOMS[p.loc].name}] ${p.name}${josa(p.name, '이/가')} 굶주림/탈수로 사망했다.`,
                 'dg',
               );
             }
@@ -5152,7 +6538,7 @@
                       (p.inventory = p.inventory || []).push('food_ration');
                       if (p.loc === G.p.loc)
                         log(
-                          `[거래] ${p.name}이(가) ${other.name}에게서 식량을 샀다.`,
+                          `[거래] ${p.name}${josa(p.name, '이/가')} ${other.name}에게서 식량을 샀다.`,
                           'sy',
                         );
                       break;
@@ -5172,7 +6558,7 @@
                       (p.inventory = p.inventory || []).push('water_bottle');
                       if (p.loc === G.p.loc)
                         log(
-                          `[거래] ${p.name}이(가) ${other.name}에게서 물을 샀다.`,
+                          `[거래] ${p.name}${josa(p.name, '이/가')} ${other.name}에게서 물을 샀다.`,
                           'sy',
                         );
                       break;
@@ -5205,7 +6591,7 @@
                     );
                   else if (p.loc === G.p.loc)
                     log(
-                      `[목격] ${p.name}이(가) ${target.name}의 물건을 슬쩍하는 걸 보았다.`,
+                      `[목격] ${p.name}${josa(p.name, '이/가')} ${target.name}의 물건을 슬쩍하는 걸 보았다.`,
                       'sy',
                     );
                 }
@@ -5222,7 +6608,7 @@
                 p.inventory.push(newItem);
                 if (p.loc === G.p.loc)
                   log(
-                    `[소문] ${p.name}이(가) 새로운 물건을 입고했다는 것 같다.`,
+                    `[소문] ${p.name}${josa(p.name, '이/가')} 새로운 물건을 입고했다는 것 같다.`,
                     'sy',
                   );
               }
@@ -5265,6 +6651,493 @@
             }
           });
           updateGlobalResources();
+        }
+
+        // Proximity Rumors / Eavesdropping System (Every 15 ticks, 20% chance)
+        if (G.time % 15 === 0 && rr() < 0.2) {
+          const roomNpcs = G.people.filter(
+            (p) =>
+              p.alive &&
+              p.loc === G.p.loc &&
+              p.id !== 'daegyeom' &&
+              p.id !== 'player',
+          );
+          if (roomNpcs.length >= 2) {
+            const speaker = roomNpcs[r(roomNpcs.length)];
+            const otherNpcs = G.people.filter(
+              (p) =>
+                p.alive &&
+                p.id !== speaker.id &&
+                p.id !== 'player' &&
+                p.id !== 'daegyeom',
+            );
+
+            if (otherNpcs.length > 0) {
+              const target = otherNpcs[r(otherNpcs.length)];
+              const type = r(3); // 0: Food/Money, 1: Lore, 2: Relationship
+
+              let rumor = '';
+              if (type === 0) {
+                // Food or Money rumor (can be true or false)
+                const isTrue = rr() < 0.5;
+                const talkAboutFood = rr() < 0.5;
+                if (talkAboutFood) {
+                  if (
+                    isTrue &&
+                    target.inventory &&
+                    target.inventory.includes('food_ration')
+                  ) {
+                    rumor = `"...내 생각에 ${target.name}${josa(target.name, '이/가')} 식량을 꽤 많이 숨기고 있는 것 같아."`;
+                  } else {
+                    rumor = `"...방금 누가 그러는데, ${target.name}${josa(target.name, '이/가')} 몰래 빵을 먹고 있었대. 진짜일까?"`;
+                  }
+                } else {
+                  if (isTrue && target.money > 200) {
+                    rumor = `"...${target.name}${josa(target.name, '이/가')} 돈을 많이 가지고 다닌다는 소문이 있어."`;
+                  } else {
+                    rumor = `"...${target.name}${josa(target.name, '이/가')} 비상금을 엄청 숨겨놨다던데? 누가 봤대."`;
+                  }
+                }
+              } else if (type === 1) {
+                // Lore rumor
+                const lores = [
+                  '...구조대는 진짜 오긴 하는 걸까?',
+                  '...대겸이가 옛날엔 저렇지 않았다던데...',
+                  '...창고 어딘가에 선생님들이 쓰던 비상 통로가 있대.',
+                  '...밤에는 복도를 돌아다니지 않는 게 좋아. 뭔가 돌아다닌대.',
+                  '...옥상 문이 잠긴 건 우연이 아닐 거야.',
+                ];
+                rumor = lores[r(lores.length)];
+              } else {
+                // Relationship rumor
+                const crush = otherNpcs[r(otherNpcs.length)];
+                if (crush.id !== target.id) {
+                  rumor = `"...야, 너 그거 들었어? ${target.name}${josa(target.name, '이/가')} 사실 ${crush.name}${josa(crush.name, '을/를')} 좋아한대."`;
+                } else {
+                  rumor = `"...요즘 누가 자꾸 내 물건을 건드리는 것 같아 기분이 나빠."`;
+                }
+              }
+
+              log(
+                `[엿듣기] ${speaker.name} 일행이 작게 떠드는 소리가 들린다. ${rumor}`,
+                'in',
+              );
+            }
+          }
+        }
+
+        // Character-specific story events
+        if (G.time === 1) {
+          const cls = G.p.charClass;
+          // Dorian: Day 3 — Daegyeom's secret contact
+          if (cls === 'dorian' && G.day === 3 && !G.dorianEvent1) {
+            G.dorianEvent1 = true;
+            showModal(
+              '// 대겸의 연락',
+              '밤중에 쪽지가 도착했다. "나를 도와라. 그러면 살려주마."',
+              [
+                {
+                  label: '협력한다',
+                  sub: '대겸과의 비밀 거래 시작. 정보+돈 획득',
+                  action: () => {
+                    G.p.money += 1000;
+                    learnInfo('daegyeom_plan');
+                    log(
+                      '[이벤트] 대겸과 비밀 거래를 시작했다. +1000원, 대겸 계획 입수.',
+                      'dg',
+                    );
+                    G.p.rep = Math.max(0, G.p.rep - 20);
+                  },
+                },
+                {
+                  label: '배신한다',
+                  sub: '대겸의 제안을 거절. 평판 상승',
+                  action: () => {
+                    G.p.rep = Math.min(100, G.p.rep + 20);
+                    log(
+                      '[이벤트] 대겸의 제안을 거절했다. 평판+20. 하지만 그의 보복이 두렵다...',
+                      'ok',
+                    );
+                  },
+                },
+              ],
+            );
+          }
+          // Junkyu: Day 2 — hidden chemicals in science lab
+          if (
+            cls === 'junkyu' &&
+            G.day === 2 &&
+            !G.junkyuEvent1 &&
+            G.p.loc === 'science_lab'
+          ) {
+            G.junkyuEvent1 = true;
+            log(
+              '[이벤트] 🧪 과학실 구석에서 잊혀진 약품 슬롯을 발견했다!',
+              'ok',
+            );
+            addItem('chemicals', 2);
+            gainXp('intel', 10);
+          }
+          // General: The Mirror Rumor (if holding mirror)
+          if (hasItem('mirror') && !G.mirrorEvent) {
+            G.mirrorEvent = true;
+            showModal(
+              '// 거울 속의 소문',
+              '거울을 이리저리 비춰보자 벽면에 숨겨진 글자가 보인다.',
+              [
+                {
+                  label: '글자를 해독한다',
+                  sub: '지능 스킬 필요',
+                  action: () => {
+                    if (skillBonus('intel', 0) > 2 || rr() < 0.4) {
+                      learnInfo('secret_tunnel');
+                      log(
+                        '[이벤트] "창고 바닥 아래..." 글자를 읽었다! 비밀 통로 정보를 얻었다.',
+                        'ok',
+                      );
+                    } else {
+                      log('[이벤트] 무슨 글자인지 도저히 모르겠다.', 'sy');
+                    }
+                  },
+                },
+                { label: '무시한다', sub: '', action: () => {} },
+              ],
+            );
+          }
+          // Rednic: Day 2 — gang confrontation
+          if (cls === 'rednic' && G.day === 2 && !G.rednicEvent1) {
+            G.rednicEvent1 = true;
+            showModal(
+              '// 불량배의 경고',
+              '강태호가 당신 앞을 막아선다. "훔친 물건 내놔."',
+              [
+                {
+                  label: '도망친다',
+                  sub: '은신 스킬로 도주 시도',
+                  action: () => {
+                    if (rr() < 0.6 + skillBonus('stealth', 0.1)) {
+                      log('[이벤트] 가까스로 도주에 성공했다!', 'ok');
+                    } else {
+                      G.p.hp = Math.max(0, G.p.hp - 20);
+                      log('[이벤트] 도주 실패. 맞았다. HP -20', 'da');
+                    }
+                  },
+                },
+                {
+                  label: '맞서 싸운다',
+                  sub: '전투로 해결',
+                  action: () => {
+                    G.p.hp = Math.max(0, G.p.hp - 15);
+                    G.p.rep += 10;
+                    log(
+                      '[이벤트] 싸움에 양쪽 다 상처를 입었다. HP -15, 평판+10',
+                      'da',
+                    );
+                  },
+                },
+              ],
+            );
+          }
+          // Rako/Jerry: Day 3 — wealth attracts bandits
+          if (
+            (cls === 'rako' || cls === 'jerry') &&
+            G.day === 3 &&
+            !G.richEvent1
+          ) {
+            G.richEvent1 = true;
+            showModal('// 부의 대가', `누군가 당신의 재산을 노리고 있다.`, [
+              {
+                label: '뇌물로 해결 (800원)',
+                sub: '돈으로 위험 회피',
+                action: () => {
+                  if (G.p.money >= 800) {
+                    G.p.money -= 800;
+                    log('[이벤트] 뇌물로 위기를 넘겼다. -800원', 'ok');
+                  } else {
+                    G.p.hp -= 15;
+                    log('[이벤트] 돈이 부족해서 맞았다. HP -15', 'da');
+                  }
+                },
+              },
+              {
+                label: '동맹에게 도움 요청',
+                sub: '라코/제리의 힘을 빌린다',
+                action: () => {
+                  const ally = G.people.find(
+                    (x) =>
+                      x.id === (cls === 'rako' ? 'jerry' : 'rako') && x.alive,
+                  );
+                  if (ally) {
+                    changeAff(ally.id, 15);
+                    log(
+                      `[이벤트] ${ally.name}${josa(ally.name, '이/가')} 도와줬다! 호감도+15`,
+                      'ok',
+                    );
+                  } else {
+                    log('[이벤트] 도움을 받을 수 없었다.', 'da');
+                    G.p.hp -= 10;
+                  }
+                },
+              },
+            ]);
+          }
+        }
+        // Woojin: every night phase — auto danger warning
+        if (
+          G.p.charClass === 'woojin' &&
+          G.phase === 'night' &&
+          G.time % 15 === 0
+        ) {
+          const conns = ROOM_CONNECTIONS[G.p.loc] || [];
+          const threats = [];
+          conns.forEach((rid) => {
+            const hostiles = G.people.filter(
+              (x) =>
+                x.alive &&
+                x.loc === rid &&
+                (x.trait === 'aggressive' || x.trait === 'villain'),
+            );
+            if (hostiles.length)
+              threats.push(`${ROOMS[rid].name}에서 위험한 소리`);
+          });
+          if (threats.length)
+            log(`[감지] ⚠️ ${threats.join(', ')}가 들린다!`, 'da');
+        }
+        // Han Jungyeon: random bad luck events
+        if (
+          G.p.charClass === 'hanjungyeon' &&
+          G.time % 25 === 0 &&
+          rr() < 0.2
+        ) {
+          const events = [
+            () => {
+              G.p.hp = Math.max(0, G.p.hp - 5);
+              log('[불운] 갑자기 발을 헛디뎠다. HP -5', 'da');
+            },
+            () => {
+              G.p.fatigue = clamp(G.p.fatigue + 10, 0, 100);
+              log('[불운] 갑자기 피곤해졌다. 피로+10', 'da');
+            },
+            () => {
+              addItem('food_ration');
+              log('[행운?] 발에 식량이 걸렸다. +1 식량. ...역시 운인가?', 'ok');
+            },
+            () => {
+              const info = Object.keys(INFO_DB).filter(
+                (k) => !G.p.knownInfo.includes(k),
+              );
+              if (info.length) {
+                learnInfo(info[0]);
+                log('[행운?] 떨어뜨린 종이에 정보가? 정보 획득!', 'ok');
+              }
+            },
+          ];
+          events[r(events.length)]();
+        }
+
+        // ── DAEGYEOM PROXIMITY EVENTS ──
+        if (G.time % 12 === 0) {
+          const dg = G.people.find((x) => x.id === 'daegyeom');
+          if (dg && dg.alive) {
+            const conns = ROOM_CONNECTIONS[G.p.loc] || [];
+            const sameRoom = dg.loc === G.p.loc;
+            const adjacent = conns.includes(dg.loc);
+            // Same room = direct confrontation
+            if (sameRoom && !G.dgEncounterCooldown) {
+              G.dgEncounterCooldown = 30;
+              showModal(
+                '// 대겸과 눈이 마주쳤다',
+                `"${G.p.name}... 아직 살아있었나."`,
+                [
+                  {
+                    label: '도망친다',
+                    sub: '목숨을 걸고 도주',
+                    action: () => {
+                      if (rr() < 0.5 + skillBonus('agility', 0.1)) {
+                        const conns2 = ROOM_CONNECTIONS[G.p.loc] || [];
+                        if (conns2.length) {
+                          G.p.loc = conns2[r(conns2.length)];
+                        }
+                        log(
+                          '[대겸] 간신히 도주했다! 심장이 터질 것 같다.',
+                          'da',
+                        );
+                        loseSanity(10);
+                      } else {
+                        const dmg = r(30) + 20;
+                        G.p.hp = Math.max(0, G.p.hp - dmg);
+                        log(
+                          `[대겸] 도주 실패. 뒤에서 칼에 베였다. HP -${dmg}`,
+                          'dg',
+                        );
+                      }
+                    },
+                  },
+                  {
+                    label: '말을 건다',
+                    sub: '대화 시도 (위험)',
+                    action: () => {
+                      if (G.p.charClass === 'dorian') {
+                        log(
+                          '[대겸] "도리안... 네 공연은 훌륭했지." 대겸이 미소지었다.',
+                          'dg',
+                        );
+                        G.p.money += 500;
+                        learnInfo('daegyeom_plan');
+                      } else if (rr() < 0.3 + skillBonus('social', 0.1)) {
+                        log(
+                          '[대겸] "재미있는 놈이군." 대겸이 뒤돌아 갔다.',
+                          'ok',
+                        );
+                        gainXp('social', 20);
+                      } else {
+                        const dmg = r(25) + 15;
+                        G.p.hp = Math.max(0, G.p.hp - dmg);
+                        log(`[대겸] "약한 놈이 말이 많아." HP -${dmg}`, 'dg');
+                      }
+                    },
+                  },
+                  {
+                    label: '선제공격',
+                    sub: '죽거나 죽이거나',
+                    action: () => {
+                      if (rr() < 0.15 + skillBonus('combat', 0.1)) {
+                        dg.hp -= 30;
+                        log(
+                          '[대겸] 기습이 성공했다! 대겸에게 큰 상처를 입혔다.',
+                          'ok',
+                        );
+                        G.p.rep += 30;
+                      } else {
+                        const dmg = r(40) + 30;
+                        G.p.hp = Math.max(0, G.p.hp - dmg);
+                        log(
+                          `[대겸] 공격을 쳐냈다. "건방진..." HP -${dmg}`,
+                          'dg',
+                        );
+                      }
+                    },
+                  },
+                ],
+              );
+            }
+            // Adjacent room = eerie warning
+            else if (adjacent && G.time % 24 === 0) {
+              log(
+                `[위험] 옆 구역에서 대겸의 기척이 느껴진다... (${ROOMS[dg.loc].name})`,
+                'dg',
+              );
+              loseSanity(10);
+            }
+            if (G.dgEncounterCooldown) G.dgEncounterCooldown--;
+          }
+        }
+
+        // ── RANDOM CHOICE EVENTS (every ~30 ticks) ──
+        if (G.time % 30 === 0 && rr() < 0.3 && G.day >= 2) {
+          const randomEvents = [
+            () => {
+              showModal('// 비명', '어디선가 비명소리가 들린다.', [
+                {
+                  label: '달려간다',
+                  sub: '위험할 수 있지만 누군가를 구할 수 있다',
+                  action: () => {
+                    if (rr() < 0.5) {
+                      const saved = G.people.find(
+                        (x) => x.alive && x.loc !== G.p.loc && x.hp < 30,
+                      );
+                      if (saved) {
+                        saved.hp = Math.min(saved.maxhp, saved.hp + 20);
+                        changeAff(saved.id, 30);
+                        G.p.rep += 10;
+                      }
+                      log('[이벤트] 누군가를 구했다! 평판+10', 'ok');
+                    } else {
+                      const dmg = r(15) + 5;
+                      G.p.hp = Math.max(0, G.p.hp - dmg);
+                      log(`[이벤트] 함정이었다. HP -${dmg}`, 'da');
+                    }
+                  },
+                },
+                {
+                  label: '무시한다',
+                  sub: '안전하지만 죄책감이...',
+                  action: () => {
+                    loseSanity(10);
+                    log('[이벤트] 비명이 멈췄다... 정신력 -8', 'da');
+                  },
+                },
+              ]);
+            },
+            () => {
+              showModal(
+                '// 수상한 제안',
+                '"식량 10개를 줄게. 대신 한 가지만 해줘."',
+                [
+                  {
+                    label: '듣는다',
+                    sub: '무슨 일인지 모른다...',
+                    action: () => {
+                      addItem('food_ration', 3);
+                      if (rr() < 0.4) {
+                        G.p.rep = Math.max(0, G.p.rep - 15);
+                        log(
+                          '[이벤트] 더러운 일을 하고 식량 3개를 받았다. 평판 -15',
+                          'da',
+                        );
+                      } else {
+                        log(
+                          '[이벤트] 간단한 심부름이었다. 식량 3개 획득.',
+                          'ok',
+                        );
+                      }
+                    },
+                  },
+                  {
+                    label: '거절한다',
+                    sub: '깨끗하게 살자',
+                    action: () => {
+                      G.p.rep += 5;
+                      log('[이벤트] 단호하게 거절했다. 평판+5', 'ok');
+                    },
+                  },
+                ],
+              );
+            },
+            () => {
+              const npc = G.people.find(
+                (x) => x.alive && x.loc === G.p.loc && x.affinity >= 20,
+              );
+              if (npc) {
+                showModal(
+                  '// 밀회',
+                  `${npc.name}${josa(npc.name, '이/가')} 의미심장한 눈빛으로 바라본다.`,
+                  [
+                    {
+                      label: '다가간다',
+                      sub: '무슨 일이 벌어질지...',
+                      action: () => {
+                        changeAff(npc.id, 15);
+                        G.p.sanity = Math.min(100, G.p.sanity + 10);
+                        log(
+                          `[이벤트] ${npc.name}과(와) 한참을 이야기했다. 정신력 +10`,
+                          'ok',
+                        );
+                      },
+                    },
+                    {
+                      label: '못 본 척한다',
+                      sub: '',
+                      action: () => {
+                        log('[이벤트] 지금은 그럴 때가 아니다.', 'sy');
+                      },
+                    },
+                  ],
+                );
+              }
+            },
+          ];
+          randomEvents[r(randomEvents.length)]();
         }
 
         // Passive decay (every 8s)
@@ -5434,8 +7307,29 @@
                 const dmg = r(20) + 15;
                 p.hp = Math.max(0, p.hp - dmg);
                 p.injured = true;
-                p.sanity = clamp(p.sanity - 10, 0, 100);
+                loseSanity(10);
                 log(`도망 실패. 대겸에게 공격당했다. HP -${dmg}`, 'dg');
+              }
+            },
+          });
+        }
+        // Hide
+        if (room && room.hideSpot) {
+          choices.push({
+            label: '숨기',
+            sub: `은신 보너스 적용. 성공률: ${Math.floor(room.hideChance * 100 + skillBonus('stealth', 10))}%`,
+            action: () => {
+              const chance = room.hideChance + skillBonus('stealth', 0.1);
+              if (rr() < chance) {
+                p.hiding = true;
+                log('숨었다. 대겸이 지나가길 기다린다.', 'ok');
+                gainXp('stealth', 12);
+              } else {
+                const dmg = r(25) + 15;
+                p.hp = Math.max(0, p.hp - dmg);
+                p.injured = true;
+                loseSanity(15);
+                log(`숨다가 들켰다! 대겸의 일격에 당했다. HP -${dmg}`, 'dg');
               }
             },
           });
@@ -5550,7 +7444,7 @@
           '[대겸] 밤에 발소리가 들렸다. 천천히, 하지만 확실히 가까워지고 있다.',
           'dg',
         );
-        G.p.sanity = clamp(G.p.sanity - 12, 0, 100);
+        loseSanity(10);
         if (rr() < 0.4) {
           showModal(
             '// 발소리',
@@ -5582,7 +7476,7 @@
                     gainXp('combat', 12);
                   } else {
                     G.p.hp = clamp(G.p.hp - 35, 0, G.p.maxhp);
-                    G.p.sanity = clamp(G.p.sanity - 20, 0, 100);
+                    loseSanity(10);
                     log('[대겸] 패배했다. HP -35. 심리 -20', 'dg');
                   }
                 },
@@ -5624,12 +7518,11 @@
           saveGame();
         } catch (e) {}
         G.p.specialUsesToday = 0;
-        // World food consumption
+        // NPC survival update (source of truth)
+        updateGlobalResources();
         const alive = G.people.filter((p) => p.alive).length;
-        const cons = Math.floor(alive * 0.65);
-        G.world.totalFood = Math.max(0, G.world.totalFood - cons);
-        // NPC deaths
-        const daysLeft = alive > 0 ? G.world.totalFood / (alive * 0.65) : 0;
+        // NPC deaths logic based on remaining food
+        const daysLeft = alive > 0 ? G.world.totalFood / (alive * 0.4) : 0;
         if (daysLeft < 1.2) {
           const d = r(6) + 3;
           for (let i = 0; i < d; i++) {
@@ -5644,7 +7537,7 @@
           }
           G.world.order = clamp(G.world.order - 10, 0, 100);
           log(`굶주림으로 ${d}명이 더 사망했다.`, 'de');
-          G.p.sanity = clamp(G.p.sanity - 8, 0, 100);
+          loseSanity(10);
         } else if (rr() < 0.3) {
           const d = r(2) + 1;
           for (let i = 0; i < d; i++) {
@@ -5729,7 +7622,7 @@
         if (pr) pr.alive = false;
         G.world.survivors--;
         G.world.order = clamp(G.world.order - 25, 0, 100);
-        G.p.sanity = clamp(G.p.sanity - 15, 0, 100);
+        loseSanity(10);
         logGap();
         log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'de');
         log('교장이 죽은 채 발견됐다. 교장실에서.', 'de');
@@ -5761,7 +7654,7 @@
                   label: '대겸을 직접 찾는다',
                   sub: '위험. 정보+',
                   action: () => {
-                    G.p.sanity = clamp(G.p.sanity - 12, 0, 100);
+                    loseSanity(10);
                     G.p.hp = clamp(G.p.hp - 5, 0, G.p.maxhp);
                     log(
                       '대겸을 찾아갔다. 그는 창가에 혼자 있었다. 눈이 마주쳤다.',
@@ -5790,7 +7683,7 @@
           }
         });
         G.world.order = clamp(G.world.order - 20, 0, 100);
-        G.p.sanity = clamp(G.p.sanity - 12, 0, 100);
+        loseSanity(10);
         logGap();
         log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'de');
         log('밤사이 교사 여러 명이 추가 사망했다.', 'de');
@@ -5807,7 +7700,7 @@
                   sub: '심리 -5',
                   dg: true,
                   action: () => {
-                    G.p.sanity = clamp(G.p.sanity - 5, 0, 100);
+                    loseSanity(10);
                     log('[박대겸]: "교사들 없으니 더 좋지 않아?"', 'dgt');
                   },
                 },
@@ -5827,7 +7720,7 @@
 
       function collapseRation() {
         G.world.order = clamp(G.world.order - 25, 0, 100);
-        G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+        loseSanity(10);
         logGap();
         log('공식 배급이 완전히 중단됐다.', 'da');
         log('이제 힘 있는 자만 식량을 가진다.', 'da');
@@ -5877,7 +7770,7 @@
       }
 
       function dgHunting() {
-        G.p.sanity = clamp(G.p.sanity - 18, 0, 100);
+        loseSanity(10);
         logGap();
         log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'dg');
         log('[박대겸] 방송: "이제 찾아다닐게. 재밌을 것 같아서."', 'dg');
@@ -5893,7 +7786,7 @@
                   sub: '피로+20, 안전↑',
                   action: () => {
                     G.p.fatigue = clamp(G.p.fatigue + 20, 0, 100);
-                    G.p.sanity = clamp(G.p.sanity - 5, 0, 100);
+                    loseSanity(10);
                     log('어두운 창고 구석에 숨었다.', 'na');
                   },
                 },
@@ -6118,7 +8011,7 @@
             clearInterval(dgTimerInt);
             document.getElementById('dgphone').classList.remove('active');
             G.paused = false;
-            G.p.sanity = clamp(G.p.sanity - 15, 0, 100);
+            loseSanity(10);
             G.p.hp = clamp(G.p.hp - 8, 0, G.p.maxhp);
             log('문자에 반응하지 못했다. 심리-15 HP-8', 'da');
             checkDeath();
@@ -6132,11 +8025,11 @@
         G.paused = false;
         const resps = [
           () => {
-            G.p.sanity = clamp(G.p.sanity - 4, 0, 100);
+            loseSanity(10);
             log('폰을 껐다. 메시지가 계속 울렸다.', 'na');
           },
           () => {
-            G.p.sanity = clamp(G.p.sanity - 8, 0, 100);
+            loseSanity(10);
             log('읽고 무시했다. 심리-8', 'na');
           },
           () => {
@@ -6149,26 +8042,26 @@
             addItem('food_ration', 1);
             G.world.totalFood += 1;
             G.p.rep = clamp(G.p.rep - 15, 0, 100);
-            G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+            loseSanity(10);
             log('[대겸] 문 앞에 식량이 놓여 있었다. 평판-15', 'dgt');
           },
           () => {
-            G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+            loseSanity(10);
             log('공포에 떨었다. 무릎이 풀렸다.', 'da');
           },
           () => {
-            G.p.sanity = clamp(G.p.sanity - 5, 0, 100);
+            loseSanity(10);
             log('침묵했다. 적어도 반응하지는 않았다.', 'na');
           },
           () => {
             G.p.hp = clamp(G.p.hp - 5, 0, G.p.maxhp);
-            G.p.sanity = clamp(G.p.sanity - 8, 0, 100);
+            loseSanity(10);
             log('맞서겠다고 했다. 한동안 응답이 없었다. HP-5', 'na');
             gainXp('combat', 3);
           },
         ];
         resps[idx % resps.length]();
-        G.p.sanity = clamp(G.p.sanity - 3, 0, 100);
+        loseSanity(10);
         checkDeath();
         fullUpdate();
       }
@@ -6194,7 +8087,7 @@
             }
           }
           log(`[부고] 익명 ${d}명 추가 사망.`, 'de');
-          G.p.sanity = clamp(G.p.sanity - 4, 0, 100);
+          loseSanity(10);
         },
         () => {
           const c = r(70) + 20;
@@ -6204,7 +8097,7 @@
         () => {
           log('[경보] "구조대가 왔다!" — 거짓말이었다.', 'ev');
           G.world.order = clamp(G.world.order - 5, 0, 100);
-          G.p.sanity = clamp(G.p.sanity - 7, 0, 100);
+          loseSanity(10);
         },
         () => {
           const f = r(5) + 3;
@@ -6220,7 +8113,7 @@
         },
         () => {
           log('[분위기] 밤새 누군가 우는 소리. 아무도 확인하지 않았다.', 'ev');
-          G.p.sanity = clamp(G.p.sanity - 5, 0, 100);
+          loseSanity(10);
         },
         () => {
           addItem('water_bottle');
@@ -6229,12 +8122,13 @@
         () => {
           G.world.order = clamp(G.world.order - 8, 0, 100);
           log('[폭력] 복도에서 집단 폭행. 아무도 말리지 않았다.', 'da');
-          G.p.sanity = clamp(G.p.sanity - 6, 0, 100);
+          loseSanity(10);
         },
         () => {
           const it = ['lighter', 'rope', 'notebook', 'phone'][r(4)];
           addItem(it);
-          log(`[발견] ${ITEMS[it] ? ITEMS[it].name : it}을(를) 발견.`, 'ok');
+          const itemName = ITEMS[it] ? ITEMS[it].name : it;
+          log(`[발견] ${itemName}${josa(itemName, '을/를')} 발견.`, 'ok');
         },
         () => {
           G.world.temp--;
@@ -6259,10 +8153,10 @@
             v.hp = Math.max(0, v.hp - 15);
             if (v.hp <= 0) v.alive = false;
             log(
-              `[부고] ${v.name}이(가) ${v.hp <= 0 ? '사망했다' : '부상을 입었다'}.`,
+              `[부고] ${v.name}${josa(v.name, '이/가')} ${v.hp <= 0 ? '사망했다' : '부상을 입었다'}.`,
               'de',
             );
-            G.p.sanity = clamp(G.p.sanity - 8, 0, 100);
+            loseSanity(10);
           }
         },
         () => {
@@ -6276,7 +8170,7 @@
         () => {
           if (G.world.dgStage >= 2) {
             log('[대겸] 복도 끝에서 웃음소리. 혼자였다.', 'dg');
-            G.p.sanity = clamp(G.p.sanity - 8, 0, 100);
+            loseSanity(10);
           }
         },
         () => {
@@ -6295,7 +8189,7 @@
             'da',
           );
           G.world.order = clamp(G.world.order - 4, 0, 100);
-          G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+          loseSanity(10);
         },
         () => {
           G.world.order = clamp(G.world.order + 5, 0, 100);
@@ -6383,7 +8277,7 @@
               label: '직접 찾아간다',
               sub: '위험, 정보+',
               action: () => {
-                G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+                loseSanity(10);
                 G.p.hp = clamp(G.p.hp - 3, 0, G.p.maxhp);
                 learnInfo('daegyeom_file');
                 log('[대겸] 마주쳤다. 눈빛이 이상했다.', 'dg');
@@ -6465,7 +8359,7 @@
               label: '무시한다',
               sub: '심리-5',
               action: () => {
-                G.p.sanity = clamp(G.p.sanity - 5, 0, 100);
+                loseSanity(10);
                 log('무시했지만 머릿속에서 지워지지 않는다.', 'na');
               },
             },
@@ -6473,7 +8367,7 @@
               label: '"누구야?"',
               sub: '심리-10, 정보+',
               action: () => {
-                G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+                loseSanity(10);
                 log('[?]: "몰라도 돼. 근데 넌 아직 살아있구나."', 'dgt');
                 learnInfo('daegyeom_location');
               },
@@ -6523,7 +8417,7 @@
                 G.addItem('food_ration', f);
                 G.world.totalFood += f;
                 G.p.rep = clamp(G.p.rep - 10, 0, 100);
-                G.p.sanity = clamp(G.p.sanity - 5, 0, 100);
+                loseSanity(10);
                 log(`식량 ${f}개 획득. 평판-10`, 'na');
               },
             },
@@ -6562,7 +8456,7 @@
               label: '대겸을 막으려 한다',
               sub: '동맹 필요. 매우 위험',
               action: () => {
-                G.p.sanity = clamp(G.p.sanity - 10, 0, 100);
+                loseSanity(10);
                 if (G.p.ganged) {
                   log(`${G.p.gangName}에 이야기했다. 미지근한 반응.`, 'in');
                 } else log('혼자서는 어렵다.', 'da');
@@ -6580,7 +8474,7 @@
               label: '대겸에게 접촉한다',
               sub: '극위험. 아이템 획득 가능',
               action: () => {
-                G.p.sanity = clamp(G.p.sanity - 18, 0, 100);
+                loseSanity(10);
                 G.p.hp = clamp(G.p.hp - 5, 0, G.p.maxhp);
                 if (rr() < 0.45) {
                   addItem('daegyeom_note');
@@ -6592,7 +8486,7 @@
               label: '아무것도 하지 않는다',
               sub: '심리-8',
               action: () => {
-                G.p.sanity = clamp(G.p.sanity - 8, 0, 100);
+                loseSanity(10);
                 log('아무것도 하지 못했다.', 'na');
               },
             },
@@ -6982,7 +8876,7 @@
       function showTitle() {
         const box = document.getElementById('obox');
         box.className = 'obox';
-        box.innerHTML = `<div class="opre">재난 발생 9일째</div><div class="otitle" style="color:var(--t2)">CENTENNIAL</div><div class="osub">센테니얼 학교에서 살아남기</div><div class="odesc" id="titleDesc"></div><div class="obbg">${hasSave() ? '<button class="obtn" onclick="loadGame()" style="margin-bottom:6px;border-color:var(--okt);color:var(--okt)">[ 이어하기 ]</button>' : ''}<button class="obtn" onclick="showCharSelect()">[ 새 게임 ]</button></div>`;
+        box.innerHTML = `<div class="opre">재난 발생 1일째</div><div class="otitle" style="color:var(--t2)">CENTENNIAL</div><div class="osub">센테니얼 학교에서 살아남기</div><div class="odesc" id="titleDesc"></div><div class="obbg">${hasSave() ? '<button class="obtn" onclick="loadGame()" style="margin-bottom:6px;border-color:var(--okt);color:var(--okt)">[ 이어하기 ]</button>' : ''}<button class="obtn" onclick="showCharSelect()">[ 새 게임 ]</button></div>`;
         document.getElementById('overlay').classList.remove('h');
         // Typing effect for description
         const desc =
@@ -7002,117 +8896,143 @@
       function showCharSelect() {
         const box = document.getElementById('obox');
         box.innerHTML = `<div class="opre">캐릭터 선택</div><div class="otitle" style="font-size:18px;margin-bottom:10px;color:var(--t2)">어떤 사람이야?</div>
-  
-  <div class="cgrid">
-      <div class="ccard" onclick="startGame('excley')">
-        <div class="cname">미스 엑슬리 <span class="crole">교사</span></div>
-        <div class="cdesc">깐깐한 교사. 권위와 지력.</div>
-        <div class="cstats"><div class="cst">HP <span>75</span></div><div class="cst high">SP <span>2</span></div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('junkyu')">
-        <div class="cname">우준규 <span class="crole">학생</span></div>
-        <div class="cdesc">과학 영재. 아이템 제작 특화.</div>
-        <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst">지력 <span>UP</span></div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('sebastian')">
-        <div class="cname">세바스찬 <span class="crole">외부인</span></div>
-        <div class="cdesc">수호자. 순찰과 전투 특화.</div>
-        <div class="cstats"><div class="cst high">HP <span>120</span></div><div class="cst">무기 보유</div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('shinwon')">
-        <div class="cname">박신원 <span class="crole">학생</span></div>
-        <div class="cdesc">체력왕. 탐색과 속도 특화.</div>
-        <div class="cstats"><div class="cst high">HP <span>150</span></div><div class="cst">식량 5개</div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('moongaleb')">
-        <div class="cname">문갈랩 <span class="crole">학생</span></div>
-        <div class="cdesc">프로듀서. 사교와 정신력 케어.</div>
-        <div class="cstats"><div class="cst">HP <span>85</span></div><div class="cst high">사교++</div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('mincheol')">
-        <div class="cname">김민철 <span class="crole">학생</span></div>
-        <div class="cdesc">트레이딩 귀재. 가격 간파.</div>
-        <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst high">돈++</div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('taichi')">
-        <div class="cname">타이치 <span class="crole">유학생</span></div>
-        <div class="cdesc">무술 라이벌. 압도적 투지.</div>
-        <div class="cstats"><div class="cst high">HP <span>160</span></div><div class="cst high">전투력+</div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('yejun')">
-        <div class="cname">김예준 <span class="crole">학생</span></div>
-        <div class="cdesc">도박사. 확률의 지배자.</div>
-        <div class="cstats"><div class="cst low">HP <span>70</span></div><div class="cst">운 <span>MAX</span></div></div>
-      </div>
-  
-      <div class="ccard" onclick="startGame('heejae')">
-        <div class="cname">신희재 <span class="crole">학생</span></div>
-        <div class="cdesc">카사노바. 매혹과 선물.</div>
-        <div class="cstats"><div class="cst">HP <span>90</span></div><div class="cst high">사교+</div></div>
-      </div>
 
-      <div class="ccard" onclick="startGame('tiffany')">
-        <div class="cname">티파니 <span class="crole">학생</span></div>
-        <div class="cdesc">퀸카. 매혹적인 유혹.</div>
-        <div class="cstats"><div class="cst">HP <span>85</span></div><div class="cst high">사교++</div></div>
-      </div>
+      <div class="cgrid">
+          <div class="ccard" onclick="startGame('excley')">
+            <div class="cname">미스 엑슬리 <span class="crole">지옥의 영어교사</span></div>
+            <div class="cdesc">전교생의 90%가 치를 떠는 공포의 완벽주의자. 재난 상황에서도 "규칙은 규칙"이라며 엄격한 통제를 시도한다. 너무 깐깐해서 학생들에게 평판은 바닥이지만, 그녀의 논리 정연한 지식은 혼란을 잠재울 유일한 열쇠일지 모른다.</div>
+            <div class="cstats"><div class="cst">HP <span>75</span></div><div class="cst low">평판 최악</div><div class="cst high">지성/권위</div></div>
+          </div>
 
-      <div class="ccard" onclick="startGame('naip')">
-        <div class="cname">나입 <span class="crole">중간상인</span></div>
-        <div class="cdesc">만물상. 희귀 물품 조달.</div>
-        <div class="cstats"><div class="cst">HP <span>90</span></div><div class="cst high">희귀템</div></div>
-      </div>
+          <div class="ccard" onclick="startGame('junkyu')">
+            <div class="cname">우준규 <span class="crole">과학 영재</span></div>
+            <div class="cdesc">늘 과학실에 틀박혀 살던 고등학생. 화학 약품과 기성품을 조합해 폭발물이나 구급 키트를 만들어내는 천부적인 재능이 있다. 도구만 있다면 이 학교의 그 누구보다 치명적인 무기를 손에 넣을 수 있는 위험한 천재다.</div>
+            <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst high">크래프팅++</div></div>
+          </div>
 
-      <div class="ccard" onclick="startGame('rednic')">
-        <div class="cname">레드닉 <span class="crole">학생</span></div>
-        <div class="cdesc">도둑. 소매치기와 리셀.</div>
-        <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst high">은신++</div></div>
-      </div>
+          <div class="ccard" onclick="startGame('sebastian')">
+            <div class="cname">세바스찬 <span class="crole">성인 보호자</span></div>
+            <div class="cdesc">한국인 학생들의 가디언으로 학교를 방문했다가 운 없이 갇힌 정체불명의 외국인 성인. 거대한 덩치와 무거운 파이프 하나로 괴물 같은 학생들을 압도한다. 말이 완전히 통하지 않아도, 그는 어른으로서 아이들을 지켜야 한다는 강한 책임감을 갖고 있다.</div>
+            <div class="cstats"><div class="cst high">HP <span>120</span></div><div class="cst high">압도적 힘/어른</div></div>
+          </div>
+          
+          <div class="ccard" onclick="startGame('shinwon')">
+            <div class="cname">박신원 <span class="crole">생존 전문가</span></div>
+            <div class="cdesc">어릴 적부터 거친 환경에서 자라 생존 본능이 극대화된 소년. 누구보다 빠르게 뛰고 완벽하게 몸을 숨긴다. 그의 가방에는 항상 쓸만한 파밍 물품이 들어있으며, 어떤 상황에서도 도망칠 구멍을 찾아낸다.</div>
+            <div class="cstats"><div class="cst high">HP <span>140</span></div><div class="cst high">회피/탐색</div><div class="cst">탐색 피로도 반감</div></div>
+          </div>
 
-      <div class="ccard" onclick="startGame('rako')">
-        <div class="cname">라코 <span class="crole">유학생</span></div>
-        <div class="cdesc">일본 부호. 막대한 자금력.</div>
-        <div class="cstats"><div class="cst high">HP <span>100</span></div><div class="cst high">돈 5000</div></div>
-      </div>
+          <div class="ccard" onclick="startGame('moongaleb')">
+            <div class="cname">문갈랩 <span class="crole">힙합 프로듀서</span></div>
+            <div class="cdesc">학교 구석 방송실을 점령하고 비트를 찍어내는 괴짜. 그의 음악은 절망에 빠진 생존자들에게 기묘한 평안을 주거나, 정신을 고양시킨다. 사람들의 심리 상태를 조절하고 여론을 형성하는 능력이 탁월하다.</div>
+            <div class="cstats"><div class="cst">HP <span>85</span></div><div class="cst high">정신 치유</div></div>
+          </div>
 
-      <div class="ccard" onclick="startGame('jerry')">
-        <div class="cname">제리 <span class="crole">유학생</span></div>
-        <div class="cdesc">중국 부호. 라코의 연인.</div>
-        <div class="cstats"><div class="cst">HP <span>95</span></div><div class="cst high">돈 4500</div></div>
-      </div>
+          <div class="ccard" onclick="startGame('mincheol')">
+            <div class="cname">김민철 <span class="crole">암시장 중개인</span></div>
+            <div class="cdesc">부모님의 가업인 전당포 일을 어깨너머로 배운 생존형 장사꾼. 쓰레기 사이에서 가치 있는 물건을 찾아내고, 말빨로 헐값에 물건을 후려치는 데 도가 텄다. 그의 손에 들어가면 식량 한 봉지가 권총 한 자루로 변하기도 한다.</div>
+            <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst high">거래/자금++</div></div>
+          </div>
 
-      <div class="ccard" onclick="startGame('cat')">
-        <div class="cname">고양이 <span class="crole">동물</span></div>
-        <div class="cdesc">과학실 고양이. 쥐 포획.</div>
-        <div class="cstats"><div class="cst low">HP <span>40</span></div><div class="cst high">회피 MAX</div></div>
-      </div>
-  </div>`;
+          <div class="ccard" onclick="startGame('taichi')">
+            <div class="cname">타이치 <span class="crole">극진가라데 유학생</span></div>
+            <div class="cdesc">일본에서 온 거구의 유학생. 수년 간의 수련으로 다져진 주먹은 흉기나 다름없다. 친구인 라코와 제리를 지키기 위해서라면 대겸의 세력 전체와 싸울 준비가 되어 있는 순수하고 강력한 전사다.</div>
+            <div class="cstats"><div class="cst high">HP <span>160</span></div><div class="cst high">무술 숙련</div><div class="cst">피해량 20% 증가</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('yejun')">
+            <div class="cname">김예준 <span class="crole">도박 중독자</span></div>
+            <div class="cdesc">전 재산을 비트코인에 탕진하고 학교에서 숨어 살던 도박꾼. 확률을 읽는 감각이 극도로 발달해 있어, 남들이 보지 못하는 기회를 포착한다. 그의 인생은 모 아니면 도이며, 때로는 그 운이 세상을 바꾼다.</div>
+            <div class="cstats"><div class="cst low">HP <span>70</span></div><div class="cst">운 MAX</div><div class="cst">파밍 대성공 확정</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('heejae')">
+            <div class="cname">신희재 <span class="crole">카사노바</span></div>
+            <div class="cdesc">수려한 외모와 능수능란한 언변으로 학교의 모든 여학생(때로는 남학생까지)의 마음을 훔친 남자. 재난 속에서도 그의 매력은 식지 않으며, 사람들을 유혹해 위험한 일을 시키거나 귀중한 자원을 상납받는 데 익숙하다.</div>
+            <div class="cstats"><div class="cst">HP <span>90</span></div><div class="cst high">매혹/사교</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('tiffany')">
+            <div class="cname">티파니 <span class="crole">치명적 퀸카</span></div>
+            <div class="cdesc">순진한 척하지만 누구보다 영악한 학교의 여왕. 자신의 성적 매력을 도구로 삼는 데 거리낌이 없다. 남자들과 하룻밤을 보내며 그들의 지갑과 가방을 털어내고, 복잡한 치정 싸움을 일으켜 학교 내부를 혼란에 빠뜨린다.</div>
+            <div class="cstats"><div class="cst">HP <span>85</span></div><div class="cst high">원나잇/약탈</div><div class="cst">광기저항 50%</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('naip')">
+            <div class="cname">나입 <span class="crole">거리의 딜러</span></div>
+            <div class="cdesc">고학력자라는 소문은 헛소문이다. 본래 공부에는 담 쌓고 학교 뒤편에서 약물과 물건을 밀거래하던 진짜배기 거리의 자식. 대겸의 눈을 피해 비밀리에 물건을 유통하는 루트를 완벽히 꿰고 있으며, 특유의 거리 감각으로 살아남는다.</div>
+            <div class="cstats"><div class="cst">HP <span>90</span></div><div class="cst low">지성 0</div><div class="cst high">밀거래/사교</div><div class="cst">광기저항 50%</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('rednic')">
+            <div class="cname">레드닉 <span class="crole">그림자 도둑</span></div>
+            <div class="cdesc">존재감이 거의 없는 유령 같은 학생. 남의 주머니에서 물건을 빼내는 손놀림은 마술에 가깝다. 대겸의 금고마저 털 수 있는 유일한 인물로 지목되며, 은신 상태에서 벌이는 그의 암살과 약탈은 공포의 대상이다.</div>
+            <div class="cstats"><div class="cst">HP <span>80</span></div><div class="cst high">소매치기/은신</div><div class="cst">광기저항 50%</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('sebastian')">
+            <div class="cname">세바스찬 <span class="crole">성인 보호자</span></div>
+            <div class="cdesc">한국인 학생들의 가디언으로 학교를 방문했다가 운 없이 갇힌 정체불명의 외국인 성인. 거대한 덩치와 무거운 파이프 하나로 괴물 같은 학생들을 압도한다. 말이 완전히 통하지 않아도, 그는 어른으로서 아이들을 지켜야 한다는 강한 책임감을 갖고 있다.</div>
+            <div class="cstats"><div class="cst high">HP <span>120</span></div><div class="cst high">압도적 힘/어른</div><div class="cst">광기저항 50%</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('rako')">
+            <div class="cname">라코 <span class="crole">재벌 3세 (JP)</span></div>
+            <div class="cdesc">일본 굴지의 재벌 '텐도 그룹'의 후계자. 엄청난 자금력으로 학교 내의 용병들을 매수하고, 식량 창고의 지분을 사들인다. 돈으로 해결되지 않는 문제는 없다고 믿으며, 실제로 그것이 통하는 세상을 만들어간다.</div>
+            <div class="cstats"><div class="cst high">HP <span>100</span></div><div class="cst high">💰5000</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('jerry')">
+            <div class="cname">제리 <span class="crole">재벌 2세 (CH)</span></div>
+            <div class="cdesc">중국 명망가의 딸이자 라코의 연인. 라코의 거친 자본주의 방식과는 달리, 돈을 써서 사람들의 환심을 사고 대규모 동맹을 구축하는 데 능하다. 그녀의 미소와 돈봉투는 가장 강력한 방패가 된다.</div>
+            <div class="cstats"><div class="cst">HP <span>95</span></div><div class="cst high">💰4500</div><div class="cst">상점 반값 할인</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('cat')">
+            <div class="cname">고양이 <span class="crole">과학실 고양이</span></div>
+            <div class="cdesc">사람들의 싸움에는 관심이 없는 작고 유연한 생명체. 좁은 환풍구를 통해 어디든 이동할 수 있으며, 쥐를 잡아 허기를 달랜다. 사람들이 닿지 못하는 곳에서 진실의 조각을 물어오는 기묘한 존재다.</div>
+            <div class="cstats"><div class="cst low">HP <span>40</span></div><div class="cst high">초월적 회피</div><div class="cst">잠긴 문 우회</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('dorian')">
+            <div class="cname">도리안 <span class="crole">타락한 음악가</span></div>
+            <div class="cdesc">대겸의 과거를 알고 있는 미스터리한 인물. 그의 연주는 듣는 이의 이성을 마비시키고 광기로 몰아넣는다. 대겸과 기묘한 계약 관계에 있는 듯하며, 어둠 속에서 정보를 수집해 자신만의 무대를 준비한다.</div>
+            <div class="cstats"><div class="cst">HP <span>90</span></div><div class="cst high">어둠의 정보</div><div class="cst">광기저항 50%</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('hanjungyeon')">
+            <div class="cname">한정연 <span class="crole">불운의 천재</span></div>
+            <div class="cdesc">IQ 180의 천재지만, 숨쉬는 것조차 불행이 따르는 소년. 온갖 재수 없는 사건에 휘말리면서도 뇌를 풀가동해 돌파구를 찾아낸다. 그의 분석력은 학교 내의 모든 기괴한 현상을 과학적으로 해부한다.</div>
+            <div class="cstats"><div class="cst low">HP <span>70</span></div><div class="cst high">뇌색적 지능</div></div>
+          </div>
+
+          <div class="ccard" onclick="startGame('woojin')">
+            <div class="cname">김우진 <span class="crole">사운드 엔지니어</span></div>
+            <div class="cdesc">청각이 비정상적으로 발달한 소년. 복도 너머 수 미터 밖에서 들려오는 발소리만으로 그것이 친구인지, 약탈자인지, 아니면 대겸인지 구분해낸다. 밤마다 들려오는 공포의 근원을 누구보다 빨리 알아챈다.</div>
+            <div class="cstats"><div class="cst">HP <span>85</span></div><div class="cst high">초각성 감지</div><div class="cst">발각 패널티 무시</div></div>
+          </div>
+      </div>`;
       }
 
       function startGame(cls) {
         document.getElementById('overlay').classList.add('h');
         G.people = makePeople();
+        // Remove selected character from NPC list to avoid duplication
+        G.people = G.people.filter((p) => p.id !== cls);
         const configs = {
           excley: {
             name: '미스 엑슬리',
             hp: 75,
             maxhp: 75,
             money: 900,
-            rep: 60,
+            rep: 25, // 90% Students hate her
             sp: 2,
             skills: {
               strength: 0,
               agility: 0,
-              social: 1,
-              intel: 2,
-              survival: 0,
+              social: 4, // Logic/Authority
+              intel: 5,
+              survival: 1,
               stealth: 0,
               medical: 1,
               combat: 0,
@@ -7129,9 +9049,10 @@
             },
             startItems: [
               'food_ration',
-              'food_ration',
               'water_bottle',
-              'water_bottle',
+              'medical_kit',
+              'old_key',
+              'notebook',
             ],
             startLoc: 'office',
           },
@@ -7146,7 +9067,7 @@
               strength: 0,
               agility: 0,
               social: 0,
-              intel: 2,
+              intel: 4,
               survival: 1,
               stealth: 0,
               medical: 1,
@@ -7162,13 +9083,7 @@
               medical: 0,
               combat: 0,
             },
-            startItems: [
-              'chemicals',
-              'lighter',
-              'food_ration',
-              'food_ration',
-              'water_bottle',
-            ],
+            startItems: ['chemicals', 'lighter', 'food_ration', 'stun_gun'],
             startLoc: 'science_lab',
           },
           sebastian: {
@@ -7179,12 +9094,49 @@
             rep: 35,
             sp: 1,
             skills: {
-              strength: 2,
+              strength: 5,
               agility: 1,
               social: 0,
               intel: 0,
-              survival: 1,
+              survival: 3,
               stealth: 0,
+              medical: 0,
+              combat: 4,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'pipe',
+              'food_ration',
+              'water_bottle',
+              'can_opener',
+              'scrap_metal',
+            ],
+            startLoc: 'hallway1',
+            weapon: 'pipe',
+          },
+          shinwon: {
+            name: '박신원',
+            hp: 140, // Balanced
+            maxhp: 140,
+            money: 300,
+            rep: 45,
+            sp: 1,
+            skills: {
+              strength: 3,
+              agility: 5, // Master
+              social: 0,
+              intel: 0,
+              survival: 2,
+              stealth: 2,
               medical: 0,
               combat: 2,
             },
@@ -7198,46 +9150,12 @@
               medical: 0,
               combat: 0,
             },
-            startItems: ['pipe', 'food_ration', 'water_bottle', 'water_bottle'],
-            startLoc: 'hallway1',
-            weapon: 'pipe',
-          },
-          shinwon: {
-            name: '박신원',
-            hp: 150,
-            maxhp: 150,
-            money: 300,
-            rep: 40,
-            sp: 1,
-            skills: {
-              strength: 2,
-              agility: 2,
-              social: 0,
-              intel: 0,
-              survival: 1,
-              stealth: 0,
-              medical: 0,
-              combat: 1,
-            },
-            xp: {
-              strength: 0,
-              agility: 0,
-              social: 0,
-              intel: 0,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
             startItems: [
               'food_ration',
               'food_ration',
-              'food_ration',
-              'food_ration',
-              'food_ration',
               'water_bottle',
               'water_bottle',
-              'water_bottle',
+              'energy_drink',
             ],
             startLoc: 'classroom_a',
           },
@@ -7251,7 +9169,142 @@
             skills: {
               strength: 0,
               agility: 0,
-              social: 2,
+              social: 4,
+              intel: 2,
+              survival: 0,
+              stealth: 1,
+              medical: 0,
+              combat: 0,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'food_ration',
+              'water_bottle',
+              'mp3_player',
+              'energy_drink',
+            ],
+            startLoc: 'classroom_b',
+          },
+          mincheol: {
+            name: '김민철',
+            hp: 80,
+            maxhp: 80,
+            money: 2000,
+            rep: 40,
+            sp: 2,
+            skills: {
+              strength: 0,
+              agility: 1,
+              social: 4,
+              intel: 4,
+              survival: 1,
+              stealth: 0,
+              medical: 0,
+              combat: 1,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'food_ration',
+              'water_bottle',
+              'trading_guide',
+              'watch',
+            ],
+            startLoc: 'office',
+          },
+          taichi: {
+            name: '타이치',
+            hp: 160, // Balanced down
+            maxhp: 160,
+            money: 200,
+            rep: 30,
+            sp: 1,
+            skills: {
+              strength: 5,
+              agility: 2,
+              social: 0,
+              intel: 0,
+              survival: 2,
+              stealth: 0,
+              medical: 0,
+              combat: 5, // Master
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: ['food_ration', 'water_bottle', 'bandage', 'cloth'],
+            startLoc: 'gym',
+          },
+          yejun: {
+            name: '김예준',
+            hp: 70,
+            maxhp: 70,
+            money: 800,
+            rep: 20,
+            sp: 3,
+            skills: {
+              strength: 0,
+              agility: 2,
+              social: 1,
+              intel: 3,
+              survival: 0,
+              stealth: 2,
+              medical: 0,
+              combat: 0,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'food_ration',
+              'water_bottle',
+              'playing_cards',
+              'lucky_charm',
+            ],
+            startLoc: 'classroom_c',
+          },
+          heejae: {
+            name: '신희재',
+            hp: 90,
+            maxhp: 90,
+            money: 700,
+            rep: 55,
+            sp: 2,
+            skills: {
+              strength: 0,
+              agility: 1,
+              social: 5,
               intel: 1,
               survival: 0,
               stealth: 1,
@@ -7268,23 +9321,23 @@
               medical: 0,
               combat: 0,
             },
-            startItems: ['food_ration', 'food_ration', 'water_bottle'],
-            startLoc: 'classroom_b',
+            startItems: ['food_ration', 'water_bottle', 'perfume', 'condom'],
+            startLoc: 'health_room',
           },
-          mincheol: {
-            name: '김민철',
-            hp: 80,
-            maxhp: 80,
-            money: 1200,
+          tiffany: {
+            name: '티파니',
+            hp: 85,
+            maxhp: 85,
+            money: 1500,
             rep: 40,
-            sp: 1,
+            sp: 2,
             skills: {
               strength: 0,
-              agility: 0,
-              social: 2,
+              agility: 1,
+              social: 6,
               intel: 2,
               survival: 0,
-              stealth: 0,
+              stealth: 2,
               medical: 0,
               combat: 0,
             },
@@ -7298,23 +9351,59 @@
               medical: 0,
               combat: 0,
             },
-            startItems: ['food_ration', 'water_bottle'],
-            startLoc: 'office',
+            startItems: ['food_ration', 'water_bottle', 'stun_gun', 'condom'],
+            startLoc: 'rooftop',
           },
-          taichi: {
-            name: '타이치',
-            hp: 160,
-            maxhp: 160,
-            money: 200,
+          naip: {
+            name: '나입',
+            hp: 90,
+            maxhp: 90,
+            money: 1500, // Balanced
             rep: 30,
             sp: 1,
             skills: {
-              strength: 2,
-              agility: 1,
+              strength: 1,
+              agility: 2,
+              social: 5, // Street smart
+              intel: 0, // Studied nothing
+              survival: 3,
+              stealth: 4,
+              medical: 1,
+              combat: 2,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
               social: 0,
               intel: 0,
-              survival: 1,
+              survival: 0,
               stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'radio',
+              'lighter',
+              'chemicals',
+              'chemicals',
+              'canned_food',
+            ],
+            startLoc: 'hallway1',
+          },
+          rednic: {
+            name: '레드닉',
+            hp: 80,
+            maxhp: 80,
+            money: 500,
+            rep: 10,
+            sp: 2,
+            skills: {
+              strength: 0,
+              agility: 3,
+              social: 0,
+              intel: 1,
+              survival: 1,
+              stealth: 5,
               medical: 0,
               combat: 2,
             },
@@ -7328,172 +9417,22 @@
               medical: 0,
               combat: 0,
             },
-            startItems: ['food_ration', 'food_ration', 'water_bottle'],
-            startLoc: 'gym',
-            weapon: 'pipe',
-          },
-          yejun: {
-            name: '김예준',
-            hp: 70,
-            maxhp: 70,
-            money: 500,
-            rep: 20,
-            sp: 2,
-            skills: {
-              strength: 0,
-              agility: 1,
-              social: 1,
-              intel: 2,
-              survival: 0,
-              stealth: 1,
-              medical: 0,
-              combat: 0,
-            },
-            xp: {
-              strength: 0,
-              agility: 0,
-              social: 0,
-              intel: 0,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
-            startItems: ['food_ration', 'water_bottle'],
-            startLoc: 'classroom_c',
-          },
-          heejae: {
-            name: '신희재',
-            hp: 90,
-            maxhp: 90,
-            money: 700,
-            rep: 55,
-            sp: 2,
-            skills: {
-              strength: 0,
-              agility: 0,
-              social: 3,
-              intel: 1,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
-            xp: {
-              strength: 0,
-              agility: 0,
-              social: 0,
-              intel: 0,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
-            startItems: ['food_ration', 'food_ration', 'water_bottle'],
-            startLoc: 'health_room',
-          },
-          tiffany: {
-            name: '티파니',
-            hp: 85,
-            maxhp: 85,
-            money: 1200,
-            rep: 40,
-            sp: 2,
-            skills: {
-              strength: 0,
-              agility: 1,
-              social: 3,
-              intel: 1,
-              survival: 0,
-              stealth: 1,
-              medical: 0,
-              combat: 0,
-            },
-            xp: {
-              strength: 0,
-              agility: 0,
-              social: 0,
-              intel: 0,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
-            startItems: ['food_ration', 'water_bottle'],
-            startLoc: 'rooftop',
-          },
-          naip: {
-            name: '나입',
-            hp: 90,
-            maxhp: 90,
-            money: 3000,
-            rep: 50,
-            sp: 1,
-            skills: {
-              strength: 1,
-              agility: 1,
-              social: 2,
-              intel: 2,
-              survival: 2,
-              stealth: 1,
-              medical: 0,
-              combat: 1,
-            },
-            xp: {
-              strength: 0,
-              agility: 0,
-              social: 0,
-              intel: 0,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
-            startItems: ['radio', 'gas_mask', 'canned_food'],
-            startLoc: 'hallway1',
-          },
-          rednic: {
-            name: '레드닉',
-            hp: 80,
-            maxhp: 80,
-            money: 500,
-            rep: 10,
-            sp: 2,
-            skills: {
-              strength: 0,
-              agility: 2,
-              social: 0,
-              intel: 1,
-              survival: 1,
-              stealth: 3,
-              medical: 0,
-              combat: 1,
-            },
-            xp: {
-              strength: 0,
-              agility: 0,
-              social: 0,
-              intel: 0,
-              survival: 0,
-              stealth: 0,
-              medical: 0,
-              combat: 0,
-            },
-            startItems: ['knife', 'lighter'],
+            startItems: ['knife', 'lighter', 'master_key', 'smoke_bomb'],
             startLoc: 'warehouse',
+            weapon: 'knife',
           },
           rako: {
             name: '라코',
             hp: 100,
             maxhp: 100,
-            money: 5000,
+            money: 5500, // Balanced
             rep: 30,
             sp: 1,
             skills: {
-              strength: 1,
+              strength: 1, // Wealth focus
               agility: 1,
-              social: 2,
-              intel: 2,
+              social: 4,
+              intel: 3,
               survival: 1,
               stealth: 0,
               medical: 0,
@@ -7509,23 +9448,129 @@
               medical: 0,
               combat: 0,
             },
-            startItems: ['canned_food', 'canned_food', 'water_bottle'],
+            startItems: [
+              'canned_food',
+              'canned_food',
+              'water_bottle',
+              'luxury_watch',
+              'gold_bar',
+            ],
             startLoc: 'office',
           },
           jerry: {
             name: '제리',
             hp: 95,
             maxhp: 95,
-            money: 4500,
+            money: 4500, // Balanced
             rep: 35,
             sp: 1,
             skills: {
               strength: 0,
               agility: 1,
-              social: 3,
-              intel: 1,
+              social: 5,
+              intel: 2,
               survival: 1,
+              stealth: 2,
+              medical: 3, // Support focus
+              combat: 0,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
               stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'canned_food',
+              'water_bottle',
+              'medical_kit',
+              'diamond_ring',
+            ],
+            startLoc: 'office',
+          },
+          cat: {
+            name: '고양이',
+            hp: 40,
+            maxhp: 40,
+            money: 0,
+            rep: 10,
+            sp: 4,
+            skills: {
+              strength: 0,
+              agility: 7,
+              social: 0,
+              intel: 0,
+              survival: 4,
+              stealth: 5,
+              medical: 0,
+              combat: 1,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: ['mouse_meat'],
+            startLoc: 'science_lab',
+          },
+          dorian: {
+            name: '도리안',
+            hp: 90,
+            maxhp: 90,
+            money: 2000,
+            rep: 50,
+            sp: 2,
+            skills: {
+              strength: 1,
+              agility: 1,
+              social: 5,
+              intel: 2,
+              survival: 0,
+              stealth: 2,
+              medical: 0,
+              combat: 1,
+            },
+            xp: {
+              strength: 0,
+              agility: 0,
+              social: 0,
+              intel: 0,
+              survival: 0,
+              stealth: 0,
+              medical: 0,
+              combat: 0,
+            },
+            startItems: [
+              'food_ration',
+              'water_bottle',
+              'dark_radio',
+              'sheet_music',
+            ],
+            startLoc: 'library',
+          },
+          hanjungyeon: {
+            name: '한정연',
+            hp: 70,
+            maxhp: 70,
+            money: 600,
+            rep: 40,
+            sp: 2,
+            skills: {
+              strength: 0,
+              agility: 1,
+              social: 1,
+              intel: 5,
+              survival: 2,
+              stealth: 1,
               medical: 1,
               combat: 0,
             },
@@ -7539,25 +9584,25 @@
               medical: 0,
               combat: 0,
             },
-            startItems: ['canned_food', 'canned_food', 'water_bottle'],
-            startLoc: 'office',
+            startItems: ['food_ration', 'water_bottle', 'radio', 'headphones'],
+            startLoc: 'classroom_a',
           },
-          cat: {
-            name: '고양이',
-            hp: 40,
-            maxhp: 40,
-            money: 0,
-            rep: 0,
-            sp: 0,
+          woojin: {
+            name: '김우진',
+            hp: 85,
+            maxhp: 85,
+            money: 600,
+            rep: 40,
+            sp: 2,
             skills: {
               strength: 0,
-              agility: 5,
-              social: 0,
-              intel: 0,
+              agility: 3,
+              social: 1,
+              intel: 3,
               survival: 3,
-              stealth: 4,
+              stealth: 3,
               medical: 0,
-              combat: 1,
+              combat: 0,
             },
             xp: {
               strength: 0,
@@ -7569,13 +9614,24 @@
               medical: 0,
               combat: 0,
             },
-            startItems: [],
-            startLoc: 'science_lab',
+            startItems: ['food_ration', 'water_bottle', 'radio', 'headphones'],
+            startLoc: 'hallway2',
           },
         };
         const c = configs[cls];
         Object.assign(G.p, { charClass: cls, ...c });
+
+        // Miss Excley Hostility: 90% students hate her
+        if (cls === 'excley') {
+          G.people.forEach((person) => {
+            if (person.id !== 'daegyeom') {
+              person.affinity = -30;
+            }
+          });
+        }
+
         c.startItems.forEach((i) => addItem(i));
+        updateGlobalResources();
         document.getElementById('charname').textContent = G.p.name;
         document.getElementById('charname').style.display = 'block';
         // Setup action buttons
@@ -7584,36 +9640,146 @@
         });
         logGap();
         logSep('아침');
-        log('재난 발생 9일째. 센테니얼 고등학교.', 'in');
-        log('100명의 생존자. 식량 800개. 시간은 줄고 있다.', 'sy');
+        log('재난 발생 1일째. 센테니얼 고등학교.', 'in');
+        log(
+          `${G.world.survivors}명의 생존자. 식량 ${G.world.totalFood}개. 시간은 줄고 있다.`,
+          'sy',
+        );
         log(`${G.p.name} — 살아남아야 한다.`, 'ev');
         if (cls === 'excley')
-          log('[교사 권위] 학생들을 명령하는 특수 능력을 갖고 있다. [Q]', 'ok');
+          log(
+            '[지옥의 영어교사] 깐깐한 통제로 학생들의 질서를 유지하고 정보를 강제로 수집한다. [Q]',
+            'ok',
+          );
         if (cls === 'junkyu')
           log(
-            '[과학 실험] 화학약품으로 특수 아이템을 합성할 수 있다. [Q]',
+            '[과학 실험] 화학약품으로 특수 아이템을 합성하거나 정보를 분석한다. [Q]',
             'ok',
           );
         if (cls === 'sebastian')
-          log('[가디언] 순찰과 전투 특수 능력이 있다. [Q]', 'ok');
+          log(
+            '[보호자 본능] 어른의 책임감으로 구역을 순찰하고 아이들을 보호한다. [Q]',
+            'ok',
+          );
         if (cls === 'shinwon')
-          log('[체력왕] 극한 탐색과 질주 능력이 있다. [Q]', 'ok');
+          log(
+            '[체력왕] 극한의 체력으로 구역을 전량 탐색하거나 순식간에 질주한다. [Q]',
+            'ok',
+          );
         if (cls === 'moongaleb')
-          log('[비트 드랍] 주변의 멘탈을 관리하고 매력을 발산한다. [Q]', 'ok');
+          log(
+            '[비트 드랍] 강력한 비트로 자신의 정신력을 회복하고 주변의 호감도를 산다. [Q]',
+            'ok',
+          );
         if (cls === 'mincheol')
           log(
-            '[시장 간파] 아이템의 가치를 꿰뚫고 유리한 거래를 유도한다. [Q]',
+            '[시장 간파] 주변 인물들이 가진 아이템 목록을 꿰뚫어본다. [Q]',
             'ok',
           );
         if (cls === 'taichi')
-          log('[카나소바 투지] 전투에서 죽지 않는 투지를 보여준다. [Q]', 'ok');
-        if (cls === 'yejun')
-          log('[올인] 모든 것을 건 도박을 시작한다. 결과는 운이다. [Q]', 'ok');
-        if (cls === 'heejae')
           log(
-            '[매혹의 눈빛] 주변 인물들을 매료시켜 협조를 이끌어낸다. [Q]',
+            '[카나소바 투지] 꺾이지 않는 투지로 체력과 정신력을 즉시 회복한다. [Q]',
             'ok',
           );
+        if (cls === 'yejun')
+          log(
+            '[올인] 자금을 건 도박을 시도한다. 성공하면 큰 돈을 얻지만 실패 시 리스크가 크다. [Q]',
+            'ok',
+          );
+        if (cls === 'heejae')
+          log(
+            '[매혹의 눈빛] 뛰어난 외모로 인물을 매료시켜 호감도를 얻고 선물을 유도한다. [Q]',
+            'ok',
+          );
+        if (cls === 'tiffany')
+          log(
+            '[유혹] 주변 인물들을 유혹해 호감도를 대폭 올리고 아이템을 선물받는다. [Q]',
+            'ok',
+          );
+        if (cls === 'naip')
+          log(
+            '[거리의 밀거래] 뒷골목 루트를 통해 아이템을 저렴하게 거래하거나 비싸게 처분한다. [Q]',
+            'ok',
+          );
+        if (cls === 'rednic')
+          log(
+            '[소매치기] NPC의 가방에서 아이템을 훔치거나 즉시 장물로 매각한다. [Q]',
+            'ok',
+          );
+        if (cls === 'rako')
+          log(
+            '[재력 과시] 막대한 자금력으로 식량을 배풀거나 구역을 안전 구역으로 매수한다. [Q]',
+            'ok',
+          );
+        if (cls === 'jerry')
+          log(
+            '[의료 지원] 자금을 소모해 자신이나 주변 NPC의 부상을 급속히 치료한다. [Q]',
+            'ok',
+          );
+        if (cls === 'cat')
+          log(
+            '[고양이 본능] 쥐를 사냥해 식량을 얻거나 낮잠으로 체력을 회복하고 도주한다. [Q]',
+            'ok',
+          );
+        if (cls === 'dorian')
+          log(
+            '[흑마법 공연] 팬덤을 결집시키거나 어둠의 정보로 대겸의 행방을 쫓는다. [Q]',
+            'ok',
+          );
+        if (cls === 'hanjungyeon')
+          log(
+            '[천재적 분석] 미해독 정보를 분석하거나 주변 자재로 소년다운 기지로 아이템을 즉석 제작한다. [Q]',
+            'ok',
+          );
+        if (cls === 'woojin')
+          log(
+            '[위험 감지] 소리에 집중해 인접 구역의 위험 요소와 배치 인원을 파악한다. [Q]',
+            'ok',
+          );
+
+        // ── Custom Lore Initialization ──
+        G.people.forEach((npc) => {
+          if (cls === 'excley') {
+            if (rr() < 0.9) npc.affinity = -30;
+          } else if (cls === 'sebastian') {
+            if (npc.role !== 'gangster' && npc.role !== 'thief')
+              npc.affinity = Math.min(100, npc.affinity + 15);
+          } else if (cls === 'rednic' || cls === 'yejun') {
+            npc.affinity -= 15;
+          } else if (cls === 'moongaleb') {
+            npc.affinity = Math.min(100, npc.affinity + 20);
+          } else if (cls === 'naip') {
+            if (npc.role === 'gangster' || npc.role === 'thief')
+              npc.affinity = Math.min(100, npc.affinity + 40);
+          }
+        });
+
+        // Specific Pairings
+        if (cls === 'rako') {
+          const jerry = G.people.find((p) => p.id === 'jerry');
+          if (jerry) jerry.affinity = 100;
+        } else if (cls === 'jerry') {
+          const rako = G.people.find((p) => p.id === 'rako');
+          if (rako) rako.affinity = 100;
+        } else if (cls === 'tiffany') {
+          // 9-12 random lovers, 50% friendly, 30% hostile
+          let loverCount = r(4) + 9;
+          let shuffled = [...G.people].sort(() => rr() - 0.5);
+
+          shuffled.forEach((npc, i) => {
+            if (i < loverCount) {
+              npc.affinity = 100; // Lovers
+            } else {
+              const lk = rr();
+              if (lk < 0.5) {
+                npc.affinity = clamp(npc.affinity + r(30) + 20, -100, 100); // Friendly
+              } else if (lk < 0.8) {
+                npc.affinity = clamp(npc.affinity - r(30) - 20, -100, 100); // Hostile
+              }
+            }
+          });
+          G.p.rep = 25; // Known for rumors
+        }
 
         log('탭을 눌러 현황/행동/인물/지도/스킬을 확인하라.', 'sy');
         log('?=도움말 | 숫자키 1-5: 탭 전환', 'sy');
